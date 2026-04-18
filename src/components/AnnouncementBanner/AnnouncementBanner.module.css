@@ -1,0 +1,37 @@
+.banner {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: white;
+  padding: 0.6rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-right: 2rem;
+}
+
+.closeBtn {
+  position: absolute;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}

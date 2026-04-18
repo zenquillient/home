@@ -1,0 +1,119 @@
+.hero {
+  position: relative;
+  height: calc(100vh - 80px); /* Minus navbar height */
+  min-height: 500px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 600px;
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.heroContent h1 {
+  margin-bottom: 1rem;
+}
+
+.heroContent p {
+  font-size: 1.2rem;
+  color: #cbd5e1;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.carouselIndicators {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.activeIndicator {
+  background: white;
+  border-color: white;
+  transform: scale(1.2);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.arrowLeft, .arrowRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.arrowLeft:hover, .arrowRight:hover {
+  background: rgba(59, 130, 246, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.arrowLeft {
+  left: 20px;
+}
+
+.arrowRight {
+  right: 20px;
+}
+
+@media (max-width: 768px) {
+  .heroContent {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    align-items: center;
+    text-align: center;
+  }
+  .heroContent p {
+    font-size: 1rem;
+  }
+}
