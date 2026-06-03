@@ -1,7 +1,7 @@
 .footer {
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(252, 251, 247, 0.95);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 4rem 0 2rem;
+  padding: clamp(2rem, 6vw, 4rem) 0 clamp(1rem, 3vw, 2rem);
   margin-top: auto;
 }
 
@@ -10,15 +10,16 @@
   flex-direction: column;
 }
 
+/* Auto-wrapping grid — no breakpoint jumps */
 .topSection {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-bottom: clamp(1.5rem, 4vw, 3rem);
 }
 
 .brand h3 {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
   margin-bottom: 1rem;
 }
 
@@ -27,14 +28,14 @@
 }
 
 .brand p {
-  color: #94a3b8;
+  color: var(--foreground);
   line-height: 1.6;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
 }
 
 .linksGroup h4, .social h4 {
   color: var(--foreground);
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
   margin-bottom: 1.2rem;
   font-weight: 600;
 }
@@ -46,9 +47,9 @@
 }
 
 .linksGroup a {
-  color: #94a3b8;
+  color: var(--foreground);
   transition: var(--transition);
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
 }
 
 .linksGroup a:hover {
@@ -57,44 +58,33 @@
 
 .socialIcons {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .socialIcons a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: clamp(36px, 7vw, 40px);
+  height: clamp(36px, 7vw, 40px);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
-  color: #94a3b8;
+  color: var(--foreground);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
   transition: var(--transition);
 }
 
 .socialIcons a:hover {
   background: var(--primary);
-  color: white;
+  color: #FFFFFF;
   transform: translateY(-2px);
 }
 
 .bottomSection {
-  padding-top: 2rem;
+  padding-top: clamp(1rem, 3vw, 2rem);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   text-align: center;
   color: #64748b;
-  font-size: 0.9rem;
-}
-
-@media (max-width: 900px) {
-  .topSection {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 600px) {
-  .topSection {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
 }

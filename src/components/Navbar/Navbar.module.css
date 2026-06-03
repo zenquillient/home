@@ -1,8 +1,8 @@
 .navbar {
-  position: sticky;
+  /* The wrapper in layout.tsx will handle stickiness */
   top: 0;
   z-index: 50;
-  background: rgba(15, 23, 42, 0.7);
+  background: rgba(252, 251, 247, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -14,6 +14,10 @@
   align-items: center;
   justify-content: space-between;
   height: 80px;
+  gap: 1.5rem;
+  transition: all 0.3s ease;
+  overflow: hidden; /* Prevent nav items from spilling out */
+  max-width: 100%;
 }
 
 .logo {
@@ -22,6 +26,8 @@
   color: var(--foreground);
   text-decoration: none;
   letter-spacing: -0.02em;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
 .logo span {
@@ -29,28 +35,52 @@
 }
 
 .desktopNav {
+  list-style: none;
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 0; /* Gap handled by dividers */
   margin: 0;
   padding: 0;
+  flex: 1;
+  justify-content: center;
+  overflow: hidden; /* Prevent overflow */
+}
+
+/* Vertical divider between nav items */
+.desktopNav li {
+  display: flex;
+  align-items: center;
+}
+
+.desktopNav li + li::before {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 16px;
+  background: rgba(47, 105, 67, 0.3);
+  margin: 0 1rem;
+  flex-shrink: 0;
 }
 
 .navLink {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  color: #cbd5e1;
+  color: var(--foreground);
   transition: var(--transition);
+  line-height: 1.2;
+  white-space: nowrap;
+  padding: 0 0.25rem;
 }
 
 .navLink:hover {
-  color: #fff;
+  color: var(--heading);
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .navActions {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .mobileMenuBtn {
@@ -67,7 +97,7 @@
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .desktopNav {
     display: none;
   }
@@ -92,7 +122,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(15, 23, 42, 0.98); /* Less transparency on mobile */
+    background: rgba(252, 251, 247, 0.98); /* Less transparency on mobile */
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem 0;
@@ -132,3 +162,20 @@
   }
 }
 
+
+
+.scrolled {
+  background: rgba(235, 234, 226, 0.85); /* semi-transparent off-white */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(47, 105, 67, 0.15); /* subtle primary border */
+  box-shadow: 0 4px 20px rgba(47, 105, 67, 0.08);
+}
+
+.scrolled .container {
+  height: 60px; /* Minimized height */
+}
+
+.scrolled .logo {
+  font-size: 1.25rem; /* Minimized logo */
+}

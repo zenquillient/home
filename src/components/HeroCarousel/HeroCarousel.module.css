@@ -1,10 +1,11 @@
 .hero {
   position: relative;
-  height: calc(100vh - 80px); /* Minus navbar height */
+  height: calc(100vh - 80px);
   min-height: 500px;
   overflow: hidden;
   display: flex;
   align-items: center;
+  background-color: var(--background); /* Block out the global gradient */
 }
 
 .slide {
@@ -19,6 +20,15 @@
   align-items: center;
 }
 
+/* Removed solid overlay so global body gradient can shine through */
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  z-index: 1;
+}
+
 .slide.active {
   opacity: 1;
   z-index: 1;
@@ -28,24 +38,40 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 600px;
+  max-width: min(600px, 90%);
   animation: slideUp 0.8s ease-out forwards;
+  position: relative;
+  z-index: 2; /* above the dark overlay */
 }
 
 .heroContent h1 {
-  margin-bottom: 1rem;
+  margin-bottom: clamp(0.25rem, 1vw, 0.5rem);
+  color: transparent !important;
+  opacity: 1 !important; /* Pure black 100% visibility */
+  -webkit-text-stroke: 1.5px #FFFFFF; /* White border for legibility */
+  text-stroke: 1.5px #FFFFFF;
+  text-shadow: 0 2px 10px rgba(255,255,255,0.5); /* subtle glow */
+  filter: none;
+  /* Prevent huge text from breaking the layout */
+  word-break: break-word;
+  max-width: 100%;
+  font-size: clamp(2rem, 5vw, 3.5rem); /* slightly smaller than global h1 */
+  line-height: 1.1;
 }
 
 .heroContent p {
-  font-size: 1.2rem;
-  color: #cbd5e1;
-  margin-bottom: 2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: #FFFFFF !important;
+  opacity: 1 !important; /* Pure black 100% visibility */
+  font-weight: 500;
+  margin-bottom: clamp(0.75rem, 1.5vw, 1rem);
   line-height: 1.6;
+  
 }
 
 .carouselIndicators {
   position: absolute;
-  bottom: 2rem;
+  bottom: clamp(0.75rem, 2vw, 2rem);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -54,35 +80,30 @@
 }
 
 .indicator {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(42, 58, 50, 0.5);
   background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .activeIndicator {
-  background: white;
-  border-color: white;
+  background: var(--primary);
+  border-color: var(--primary);
   transform: scale(1.2);
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .arrowLeft, .arrowRight {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
-  width: 48px;
-  height: 48px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(42, 58, 50, 0.1);
+  color: var(--primary);
+  width: clamp(36px, 6vw, 48px);
+  height: clamp(36px, 6vw, 48px);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -98,22 +119,53 @@
   transform: translateY(-50%) scale(1.1);
 }
 
-.arrowLeft {
-  left: 20px;
+.arrowLeft { left: clamp(8px, 2vw, 20px); }
+.arrowRight { right: clamp(8px, 2vw, 20px); }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.arrowRight {
-  right: 20px;
-}
+/* ── Mobile: Force Landscape View (Like Desktop) ── */
+@media (max-width: 1024px) {
+  .hero {
+    height: auto;
+    min-height: unset;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+  }
 
-@media (max-width: 768px) {
   .heroContent {
-    padding-left: 1rem;
-    padding-right: 1rem;
     align-items: center;
     text-align: center;
+    padding: 0 clamp(1rem, 4vw, 2rem);
   }
+
+  .heroContent h1 {
+    font-size: clamp(1rem, 3.5vw, 1.75rem) !important;
+    margin-bottom: 0.25rem !important;
+    line-height: 1.1 !important;
+    -webkit-text-stroke: 1px #FFFFFF !important; /* Thinner border for smaller mobile text */
+  }
+
   .heroContent p {
-    font-size: 1rem;
+    font-size: clamp(0.7rem, 2vw, 0.9rem) !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .heroContent a, .heroContent button {
+    padding: 0.4rem 1rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .carouselIndicators {
+    bottom: 1.5rem;
+  }
+  
+  .indicator {
+    width: 6px;
+    height: 6px;
   }
 }

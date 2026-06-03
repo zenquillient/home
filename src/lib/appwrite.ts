@@ -20,3 +20,6 @@ export const COL_CONTACTS = 'contacts';
 export const COL_PAGES = 'pages';
 export const COL_NAVIGATION = 'navigation';
 export const COL_SOCIALS = 'socials';
+export const BUCKET_ID = 'zenDownloads';
+
+export const COL_BLOG_COMMENTS = 'blog_comments';

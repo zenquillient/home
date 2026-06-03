@@ -1,0 +1,88 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.card {
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3.5rem);
+  text-align: center;
+  width: 100%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  min-height: clamp(200px, 30vw, 260px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.card.fade {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.stars {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  letter-spacing: 4px;
+}
+
+.text {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-style: italic;
+  color: var(--foreground);
+  line-height: 1.7;
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.name {
+  font-weight: 600;
+  color: var(--primary);
+  font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+.source {
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+  color: #64748b;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+}
+
+/* Dots */
+.dots {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.dot:hover {
+  background: rgba(47, 105, 67, 0.2);
+}
+
+.activeDot {
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: scale(1.3);
+}

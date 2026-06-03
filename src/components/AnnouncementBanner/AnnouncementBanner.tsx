@@ -3,25 +3,56 @@
 import { useState, useEffect } from 'react';
 import styles from './AnnouncementBanner.module.css';
 import { X } from 'lucide-react';
+import { databases, DB_ID, COL_SETTINGS } from '@/lib/appwrite';
+
+interface AnnouncementConfig {
+  text: string;
+  link: string;
+  status: string;
+}
 
 export default function AnnouncementBanner() {
-  const [isVisible, setIsVisible] = useState(true);
-  const [content, setContent] = useState("Join our upcoming Mind Wellness Seminar this Friday! Click here to register.");
+  const [isVisible, setIsVisible] = useState(false);
+  const [config, setConfig] = useState<AnnouncementConfig | null>(null);
 
-  // Later, we fetch the real announcement from Appwrite here
-  /*
   useEffect(() => {
-    // fetch from Appwrite settings collection
+    databases.getDocument(DB_ID, COL_SETTINGS, 'announcement')
+      .then(doc => {
+        if (doc.content) {
+          const parsed: AnnouncementConfig = JSON.parse(doc.content);
+          // Only show if status is active
+          if (parsed.status === 'active' && parsed.text) {
+            setConfig(parsed);
+            setIsVisible(true);
+          }
+        }
+      })
+      .catch(() => {
+        // No announcement saved yet — stay hidden
+      });
   }, []);
-  */
 
-  if (!isVisible) return null;
+  if (!isVisible || !config) return null;
+
+  const hasLink = config.link && config.link.startsWith('http');
 
   return (
     <div className={styles.banner}>
-      <p className={styles.text}>{content}</p>
-      <button 
-        className={styles.closeBtn} 
+      {hasLink ? (
+        <a
+          href={config.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.text}
+          style={{ cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+        >
+          {config.text}
+        </a>
+      ) : (
+        <p className={styles.text}>{config.text}</p>
+      )}
+      <button
+        className={styles.closeBtn}
         onClick={() => setIsVisible(false)}
         aria-label="Close Announcement"
       >
@@ -30,3 +61,4 @@ export default function AnnouncementBanner() {
     </div>
   );
 }
+

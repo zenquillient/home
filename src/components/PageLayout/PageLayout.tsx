@@ -1,8 +1,32 @@
 import styles from '@/app/page.module.css';
+import { PlayCircle, ChevronRight } from 'lucide-react';
 import HeroCarousel from '@/components/HeroCarousel/HeroCarousel';
-import { PageContent } from '@/lib/cms';
+import ReviewsCarousel from '@/components/ReviewsCarousel/ReviewsCarousel';
+import ContactForm from '@/components/ContactForm/ContactForm';
+import FAQ from '@/components/FAQ/FAQ';
+import { PageContent, Review, NavVertical } from '@/lib/cms';
 
-export default function PageLayout({ pageData }: { pageData: PageContent }) {
+interface PageLayoutProps {
+  pageData: PageContent;
+  allReviews?: Review[];
+  verticals: NavVertical[];
+}
+
+export default function PageLayout({ pageData, allReviews, verticals }: PageLayoutProps) {
+  // On homepage use all-vertical reviews; on vertical pages use that page's reviews
+  const reviews = (allReviews && allReviews.length > 0) ? allReviews : pageData.reviews;
+
+  let embedUrl = '';
+  if (pageData.videoLink) {
+    let videoId = '';
+    if (pageData.videoLink.includes('youtube.com/watch?v=')) {
+      videoId = pageData.videoLink.split('v=')[1]?.split('&')[0];
+    } else if (pageData.videoLink.includes('youtu.be/')) {
+      videoId = pageData.videoLink.split('youtu.be/')[1]?.split('?')[0];
+    }
+    if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+  }
+
   return (
     <>
       <HeroCarousel slides={pageData.images} />
@@ -11,27 +35,49 @@ export default function PageLayout({ pageData }: { pageData: PageContent }) {
       <section id="about" className={`section ${styles.summarySection}`}>
         <div className="container">
           <div className={`glass ${styles.summaryCard}`}>
-            <h2 className={styles.sectionTitle}>{pageData.heading}</h2>
-            <p>{pageData.paragraph}</p>
+            {pageData.videoLink ? (
+              <div className={styles.videoGrid}>
+                <div className={styles.videoText}>
+                  <h2 className={styles.sectionTitle} style={{ textAlign: 'left', marginBottom: '1rem' }}>{pageData.heading}</h2>
+                  <p>{pageData.paragraph}</p>
+
+
+                </div>
+                <div style={{ position: 'relative', borderRadius: '1rem', overflow: 'hidden', aspectRatio: '16 / 9', width: '100%', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(42,58,50,0.1)' }}>
+                   {embedUrl ? (
+                     <iframe src={embedUrl} title="YouTube video player" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                   ) : (
+                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: '2rem' }}>
+                       <PlayCircle size={64} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
+                       <p style={{ fontWeight: '500' }}>Watch Introduction Video</p>
+                       <a href={pageData.videoLink} target="_blank" rel="noreferrer" style={{ position: 'absolute', inset: 0, zIndex: 10 }}></a>
+                     </div>
+                   )}
+                </div>
+              </div>
+            ) : (
+              <>
+                <h2 className={styles.sectionTitle}>{pageData.heading}</h2>
+                <p>{pageData.paragraph}</p>
+
+
+              </>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Reviews Section */}
-      <section id="reviews" className="section">
-        <div className="container">
-          <h2 className={styles.sectionTitle}>Customer Reviews</h2>
-          <div className={styles.reviewsGrid}>
-            {pageData.reviews.map((review, i) => (
-              <div key={i} className={`glass ${styles.reviewCard}`}>
-                <div className={styles.stars}>⭐⭐⭐⭐⭐</div>
-                <p>"{review.text}"</p>
-                <h5>- {review.author}</h5>
-              </div>
-            ))}
+      {/* Reviews — auto-cycling carousel */}
+      {reviews.length > 0 && (
+        <section id="reviews" className="section">
+          <div className="container">
+            <h2 className={`${styles.sectionTitle} title-gradient`}>What Our Clients Say</h2>
+            <ReviewsCarousel reviews={reviews} />
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+            <FAQ faqs={pageData.faqs || []} />
 
       {/* Contact Form Section */}
       <section id="contact" className={`section ${styles.contactSection}`}>
@@ -41,73 +87,11 @@ export default function PageLayout({ pageData }: { pageData: PageContent }) {
               <h2>Contact Us</h2>
               <p>Reach out to schedule your session or get more information. We aim to respond within 24 hours.</p>
             </div>
-            <form className={styles.form}>
-              <div className={styles.formGroup}>
-                <label htmlFor="name">Full Name</label>
-                <input type="text" id="name" required placeholder="John Doe" />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="email">Email Address</label>
-                <input type="email" id="email" required placeholder="john@example.com" />
-              </div>
-              
-              <div className={styles.formGroup}>
-                <label htmlFor="phone">Phone Number</label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <select id="countryCode" style={{ flex: '0 0 100px', backgroundColor: 'rgba(0,0,0,0.3)', color: 'white', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '0.75rem' }}>
-                    <option value="+1">+1 (US)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+91">+91 (IN)</option>
-                    <option value="+61">+61 (AU)</option>
-                  </select>
-                  <input type="tel" id="phone" required placeholder="123 456 7890" style={{ flex: 1 }} />
-                </div>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Who are you enquiring for?</label>
-                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                    <input type="radio" name="enquiringFor" value="myself" defaultChecked /> Myself
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                    <input type="radio" name="enquiringFor" value="organisation" /> Organisation
-                  </label>
-                </div>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label>Type of Enquiry</label>
-                <select 
-                  name="enquiryType" 
-                  defaultValue="services"
-                  style={{ 
-                    backgroundColor: 'rgba(0,0,0,0.3)', 
-                    color: 'white', 
-                    border: '1px solid rgba(255,255,255,0.1)', 
-                    borderRadius: '8px', 
-                    padding: '0.75rem',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <option value="services">Services</option>
-                  <option value="pricing">Pricing</option>
-                  <option value="vertical1">Vertical 1</option>
-                  <option value="vertical2">Vertical 2</option>
-                  <option value="vertical3">Vertical 3</option>
-                  <option value="vertical4">Vertical 4</option>
-                </select>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="message">Any additional details?</label>
-                <textarea id="message" rows={4} required placeholder="Tell us about what you are looking for..." />
-              </div>
-              <button type="submit" className="btn btn-accent">Send Request</button>
-            </form>
+            <ContactForm verticals={verticals} />
           </div>
         </div>
       </section>
     </>
   );
 }
+

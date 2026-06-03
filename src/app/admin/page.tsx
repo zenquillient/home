@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { account } from '@/lib/appwrite';
 import { useRouter } from 'next/navigation';
 import styles from './admin.module.css';
-import { ID } from 'appwrite';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -19,19 +18,11 @@ export default function AdminLogin() {
     setError('');
     
     try {
-      // Assuming Appwrite is fully set up, this will authenticate
-      // await account.createEmailPasswordSession(email, password);
-      console.log('Logging in...', email);
-      
-      // MOCK LOGIN FOR NOW (since no Appwrite DB is set up yet by user)
-      setTimeout(() => {
-          router.push('/admin/dashboard');
-      }, 1000);
-      
+      await account.createEmailPasswordSession(email, password);
+      router.push('/admin/dashboard');
     } catch (err: any) {
-      setError(err.message || 'Login failed. Check your Appwrite configuration.');
-    } finally {
-      // setLoading(false);
+      setError(err.message || 'Login failed. Invalid email or password.');
+      setLoading(false);
     }
   };
 

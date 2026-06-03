@@ -19,14 +19,19 @@ async function runSetup() {
   const DB_ID = 'mindwellnessDB'; // Preferred Custom ID
 
   try {
-    // 1. Create Database
-    console.log(`Creating Database: ${DB_ID}...`);
+    // 1. Create Database (skip if already exists or plan limit reached)
+    console.log(`Ensuring Database: ${DB_ID}...`);
     try {
       await databases.create(DB_ID, 'MindWellness CMS');
       console.log('Database created.');
     } catch (err) {
-      if (err.code === 409) console.log('Database already exists. Skipping...');
-      else throw err;
+      if (err.code === 409) {
+        console.log('Database already exists. Skipping creation...');
+      } else if (err.message && err.message.includes('maximum number')) {
+        console.log('Database limit reached — database already exists on this plan. Continuing to collections...');
+      } else {
+        throw err;
+      }
     }
 
     // 2. Collections Setup Array with Attributes
@@ -72,7 +77,6 @@ async function runSetup() {
           { key: 'content', size: 65535, required: false },
           { key: 'date', size: 100, required: false }
         ]
-      },
       { 
         id: 'contacts', 
         name: 'Customer Submissions',
@@ -81,6 +85,14 @@ async function runSetup() {
           { key: 'email', size: 255, required: false },
           { key: 'phone', size: 50, required: false },
           { key: 'type', size: 255, required: false }
+        ]
+      },
+      { 
+        id: 'leads', 
+        name: 'Lead Generation PDF',
+        attributes: [
+          { key: 'email', size: 255, required: false },
+          { key: 'source', size: 255, required: false }
         ]
       }
     ];
@@ -106,6 +118,30 @@ async function runSetup() {
           else console.error(`   - Error on Attribute [${attr.key}]:`, err.message);
         }
       }
+    }
+
+    // 3. Storage Bucket Generation
+    const storageClient = new appwrite.Storage(client);
+    console.log(`Ensuring Storage Bucket: zenDownloads...`);
+    try {
+      await storageClient.createBucket(
+        'zenDownloads', 
+        'Zenquillient File Storage', 
+        [
+          appwrite.Permission.read(appwrite.Role.any()),
+          appwrite.Permission.create(appwrite.Role.any()),
+          appwrite.Permission.update(appwrite.Role.any()),
+          appwrite.Permission.delete(appwrite.Role.any())
+        ],
+        false, 
+        false, 
+        undefined, 
+        ['pdf', 'jpg', 'png']
+      );
+      console.log('Storage Bucket provisioned securely.');
+    } catch(err) {
+       if (err.code === 409) console.log('Storage Bucket already exists.');
+       else console.error('Bucket Error:', err.message);
     }
 
     console.log('==============================================');

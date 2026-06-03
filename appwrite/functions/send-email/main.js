@@ -4,8 +4,8 @@ const sdk = require('node-appwrite');
  * Appwrite Function: send-email
  * Trigger: databases.[DB_ID].collections.contacts.documents.*.create
  * 
- * This function sends an automated email response whenever a new document
- * is submitted to the contacts collection.
+ * Dynamically fetches the Admin's Automations configuration from the DB
+ * to dispatch personalized emails.
  */
 module.exports = async ({ req, res, log, error }) => {
   log('Send-email function triggered.');
@@ -17,8 +17,6 @@ module.exports = async ({ req, res, log, error }) => {
 
   try {
     const payload = typeof req.bodyRaw === 'string' ? JSON.parse(req.bodyRaw) : req.body;
-    
-    // Extract document fields
     const contactName = payload.name;
     const contactEmail = payload.email;
 
@@ -29,26 +27,50 @@ module.exports = async ({ req, res, log, error }) => {
 
     log(`Preparing automated response to ${contactName} (${contactEmail})...`);
 
+    // 1. Initialize Server DB access
+    const client = new sdk.Client()
+      .setEndpoint(process.env.APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1')
+      .setProject(process.env.APPWRITE_PROJECT_ID)
+      .setKey(process.env.APPWRITE_API_KEY);
+      
+    const databases = new sdk.Databases(client);
+
+    // 2. Fetch Admin Configurations
+    let customMessage = `Thank you for your enquiry. We will get back to you shortly.`;
+    let attachmentLink = ``;
+
+    try {
+      log('Fetching Automation mappings from Database...');
+      const configDoc = await databases.getDocument('mindwellnessDB', 'settings', 'automations');
+      const parsed = JSON.parse(configDoc.content);
+      if(parsed.message) customMessage = parsed.message;
+      if(parsed.pdfUrl) attachmentLink = `<p><strong>Mindfulness Resource:</strong> <a href="${parsed.pdfUrl}">Download PDF Here</a></p>`;
+      log('Successfully captured Admin layout.');
+    } catch(err) {
+      log('No custom automation config found. Falling back to defaults.');
+    }
+
     /*
-     * EMAIL SENDING LOGIC
-     * Uncomment and configure your preferred email provider below.
-     * Ensure you add the respective dependency to this function's package.json
+     * 3. EMAIL SENDING LOGIC (Using Mock/Console output until SendGrid is attached)
      * 
      * Example using SendGrid:
-     * 
      * const sgMail = require('@sendgrid/mail');
-     * sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Set up this Env variable in Appwrite Console
-     * 
-     * const msg = {
-     *   to: contactEmail,
-     *   from: 'hello@mindwellness.com', // Must be verified email
-     *   subject: 'Thank you for your enquiry - Mind Wellness',
-     *   text: `Hi ${contactName},\n\nThank you for reaching out to Mind Wellness. We have received your enquiry regarding your selected options. Our team will review your details and get back to you within 24 hours.\n\nWarm regards,\nThe Mind Wellness Team`,
-     *   html: `<p>Hi <strong>${contactName}</strong>,</p><p>Thank you for reaching out to Mind Wellness. We have received your enquiry and our team will get back to you within 24 hours.</p><p>Warm regards,<br/>The Mind Wellness Team</p>`,
-     * };
-     * 
-     * await sgMail.send(msg);
+     * sgMail.setApiKey(process.env.SENDGRID_API_KEY);
      */
+    
+    const FinalHTML = `
+      <p>Hi <strong>${contactName}</strong>,</p>
+      <p>${customMessage.replace(/\n/g, '<br/>')}</p>
+      ${attachmentLink}
+      <br/>
+      <p>Warm regards,<br/>The Mind Wellness Team (Zenquillient)</p>
+    `;
+
+    log("--- GENERATED EMAIL PAYLOAD ---");
+    log(FinalHTML);
+    log("-------------------------------");
+
+    // NOTE: Perform actual `sgMail.send(msg)` here.
 
     log('Automated response successfully dispatched.');
     return res.json({ success: true, message: `Response dispatched to ${contactEmail}` });

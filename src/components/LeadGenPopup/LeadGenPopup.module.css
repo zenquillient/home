@@ -1,9 +1,6 @@
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -11,19 +8,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(1rem, 4vw, 2rem);
   animation: fadeIn 0.3s ease-out forwards;
 }
 
 .popup {
   position: relative;
   width: 100%;
-  max-width: 480px;
-  padding: 3rem 2.5rem;
+  max-width: min(480px, 100%);
+  padding: clamp(1.75rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2.5rem);
   text-align: center;
-  background: rgba(15, 23, 42, 0.95);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: var(--card);
+  box-shadow: 0 25px 50px -12px rgba(47, 105, 67, 0.15);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
   animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
@@ -31,9 +29,9 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--background-alt);
   border: none;
-  color: #94a3b8;
+  color: var(--foreground);
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -45,20 +43,21 @@
 }
 
 .closeBtn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background: #E3E5DE;
+  color: var(--heading);
   transform: rotate(90deg);
 }
 
 .content h2 {
-  font-size: 1.8rem;
+  font-size: clamp(1.25rem, 4vw, 1.8rem);
   margin-bottom: 1rem;
 }
 
 .content p {
-  color: #cbd5e1;
+  color: var(--foreground);
   line-height: 1.6;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1.25rem, 4vw, 2rem);
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
 }
 
 .form {
@@ -69,19 +68,19 @@
 
 .input {
   width: 100%;
-  padding: 0.875rem 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: clamp(0.65rem, 2vw, 0.875rem) 1rem;
+  background: var(--background);
+  border: 1px solid var(--card-border);
   border-radius: 8px;
-  color: white;
-  font-size: 1rem;
+  color: var(--heading);
+  font-size: clamp(0.875rem, 2.5vw, 1rem); /* prevents iOS zoom */
   transition: var(--transition);
 }
 
 .input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 2px rgba(47, 105, 67, 0.2);
 }
 
 .disclaimer {

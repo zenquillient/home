@@ -2,24 +2,42 @@
 
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
-import { VERTICALS } from '@/lib/config';
+import type { NavVertical } from '@/lib/cms';
 
-export default function Navbar() {
+interface NavbarProps {
+  verticals: NavVertical[];
+  logoUrl?: string | null;
+}
+
+export default function Navbar({ verticals, logoUrl }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Updated links to support dynamic vertical pages
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const navLinks = [
-    ...VERTICALS.map(v => ({ name: v.name, href: v.href })),
+    { name: 'Home', href: '/' },
+    ...verticals.map(v => ({ name: v.name, href: v.href })),
     { name: 'Blog', href: '/blog' }
   ];
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}>
       <div className={`container ${styles.container}`}>
-        <Link href="/" className={styles.logo}>
-          Zen<span>quillient</span>
+        <Link href="/" className={styles.logo} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          {logoUrl ? (
+             <img src={logoUrl} alt="Logo" style={{ height: '40px', objectFit: 'contain' }} />
+          ) : (
+            <div>Zen<span>quillient</span></div>
+          )}
         </Link>
 
         {/* Desktop Links */}
@@ -77,3 +95,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

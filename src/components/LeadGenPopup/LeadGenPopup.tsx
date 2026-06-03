@@ -1,20 +1,37 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import styles from './LeadGenPopup.module.css';
-import { X, CheckCircle } from 'lucide-react';
-// import { databases, COL_LEADS, DB_ID } from '@/lib/appwrite';
-// import { ID } from 'appwrite';
+import { useState, useEffect } from "react";
+import styles from "./LeadGenPopup.module.css";
+import { X } from "lucide-react";
 
 export default function LeadGenPopup() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [email, setEmail] = useState('');
   const [isDismissed, setIsDismissed] = useState(false);
+  const [testTitle, setTestTitle] = useState("Discover Your Zenquillient Score");
+  const [testContent, setTestContent] = useState("Take our free comprehensive Mindfulness Test on Google Forms to find the perfect guided path customized for your results.");
+  const [testBtnText, setTestBtnText] = useState("Take the Test Now");
+  const [testLink, setTestLink] = useState("");
 
   useEffect(() => {
-    // Only show if not previously dismissed (in a real app, use localStorage)
+    // Only show if not previously dismissed
     if (isDismissed) return;
+
+    const fetchConfig = async () => {
+      try {
+        const { databases, DB_ID, COL_SETTINGS } = await import("@/lib/appwrite");
+        const autoDoc = await databases.getDocument(DB_ID, COL_SETTINGS, "mindfulness");
+        if (autoDoc.content) {
+          const parsed = JSON.parse(autoDoc.content);
+          if (parsed.title) setTestTitle(parsed.title);
+          if (parsed.content) setTestContent(parsed.content);
+          if (parsed.btnText) setTestBtnText(parsed.btnText);
+          if (parsed.link) setTestLink(parsed.link);
+        }
+      } catch (err) {
+        // silently fail
+      }
+    };
+    fetchConfig();
 
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -23,33 +40,12 @@ export default function LeadGenPopup() {
     return () => clearTimeout(timer);
   }, [isDismissed]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      /*
-      await databases.createDocument(DB_ID, COL_LEADS, ID.unique(), {
-        email: email,
-        source: 'Mindfulness Test PDF',
-        created_at: new Date().toISOString()
-      });
-      */
-      console.log('Lead captured:', email);
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsVisible(false);
-        setIsDismissed(true);
-      }, 3000);
-    } catch (error) {
-      console.error('Failed to capture lead', error);
-    }
-  };
-
   const closePopup = () => {
     setIsVisible(false);
     setIsDismissed(true);
   };
 
-  if (!isVisible) return null;
+  if (!isVisible || !testLink) return null;
 
   return (
     <div className={styles.overlay}>
@@ -62,34 +58,13 @@ export default function LeadGenPopup() {
           <X size={20} />
         </button>
 
-        {!isSubmitted ? (
-          <div className={styles.content}>
-            <h2 className="title-gradient">Discover Your Zenquillient Score</h2>
-            <p>
-              Take our free comprehensive Mindfulness Test. Enter your email below, and we'll instantly send you the PDF guide customized to your results.
-            </p>
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address" 
-                required 
-                className={styles.input}
-              />
-              <button type="submit" className="btn btn-accent">
-                Send Me The PDF
-              </button>
-            </form>
-            <p className={styles.disclaimer}>We respect your inbox. No spam, ever.</p>
-          </div>
-        ) : (
-          <div className={`${styles.content} ${styles.success}`}>
-            <CheckCircle size={48} color="var(--success)" />
-            <h2>Thank You!</h2>
-            <p>Your Mindfulness Test PDF is on its way to your inbox.</p>
-          </div>
-        )}
+        <div className={styles.content}>
+          <h2 className="title-gradient">{testTitle}</h2>
+          <p>{testContent}</p>
+          <a href={testLink} target="_blank" rel="noopener noreferrer" className="btn btn-accent" style={{ display: "inline-block", width: "100%", marginTop: "1rem", padding: "1rem", boxSizing: "border-box" }} onClick={closePopup}>
+            {testBtnText}
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -10,6 +10,8 @@ interface Slide {
   subtitle: string;
   img: string;
   href?: string;
+  buttonText?: string;
+  buttonLink?: string;
 }
 
 export default function HeroCarousel({ slides }: { slides: Slide[] }) {
@@ -52,27 +54,37 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {slides.map((slide, index) => (
-        <div 
-          key={index} 
-          className={`${styles.slide} ${index === activeSlide ? styles.active : ''}`}
-          style={{ background: slide.img }}
-        >
-          <div className={`container ${styles.heroContent}`}>
-            <h1 className="title-gradient">{slide.title}</h1>
-            <p>{slide.subtitle}</p>
-            {slide.href ? (
-              <Link href={slide.href} className="btn btn-primary">
-                Learn More <ChevronRight size={18} />
-              </Link>
-            ) : (
-              <button className="btn btn-primary">
-                Learn More <ChevronRight size={18} />
-              </button>
-            )}
-          </div>
-        </div>
-      ))}
+      {slides.map((slide, index) => {
+          const isUrl = slide.img.startsWith('http');
+          const slideStyle = {
+            backgroundImage: isUrl ? `url(${slide.img})` : slide.img,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          };
+          return (
+            <div
+              key={index}
+              className={`${styles.slide} ${index === activeSlide ? styles.active : ''}`}
+              style={slideStyle}
+            >
+              <div className={`container ${styles.heroContent}`}>
+                <h1 className="title-gradient" style={{ color: "var(--foreground)" }}>{slide.title}</h1>
+                <p style={{ color: "var(--foreground)" }}>{slide.subtitle}</p>
+                {slide.buttonLink ? (
+                  <Link href={slide.buttonLink} className="btn btn-primary">
+                    {slide.buttonText || "Learn More"} <ChevronRight size={18} />
+                  </Link>
+                ) : (
+                  <Link href={slide.href || "#"} className="btn btn-primary" style={{ display: slide.href ? "inline-flex" : "none" }}>
+                    Learn More <ChevronRight size={18} />
+                  </Link>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
 
       {slides.length > 1 && (
         <>
@@ -83,16 +95,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
             <ChevronRight size={24} />
           </button>
 
-          <div className={styles.carouselIndicators}>
-            {slides.map((_, index) => (
-              <button 
-                key={index} 
-                className={`${styles.indicator} ${index === activeSlide ? styles.activeIndicator : ''}`}
-                onClick={() => setActiveSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
+
         </>
       )}
     </section>
