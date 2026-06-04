@@ -39,7 +39,7 @@ export default function PageLayout({ pageData, allReviews, verticals }: PageLayo
               <div className={styles.videoGrid}>
                 <div className={styles.videoText}>
                   <h2 className={styles.sectionTitle} style={{ textAlign: 'left', marginBottom: '1rem' }}>{pageData.heading}</h2>
-                  <p>{pageData.paragraph}</p>
+                  <p style={{ whiteSpace: 'pre-wrap' }}>{pageData.paragraph}</p>
 
 
                 </div>
@@ -58,7 +58,7 @@ export default function PageLayout({ pageData, allReviews, verticals }: PageLayo
             ) : (
               <>
                 <h2 className={styles.sectionTitle}>{pageData.heading}</h2>
-                <p>{pageData.paragraph}</p>
+                <p style={{ whiteSpace: 'pre-wrap' }}>{pageData.paragraph}</p>
 
 
               </>
