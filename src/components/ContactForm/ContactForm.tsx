@@ -99,7 +99,7 @@ ${msg}`,
           <option value="services">General Services</option>
           <option value="pricing">Pricing & Billing</option>
           {verticals.map(v => (
-            <option key={v.id} value={`vertical_${v.id}`}>{v.name}</option>
+            <option key={v.id} value={v.id}>{v.name}</option>
           ))}
         </select>
       </div>
