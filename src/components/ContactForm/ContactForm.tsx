@@ -42,12 +42,13 @@ export default function ContactForm({ verticals }: ContactFormProps) {
       await databases.createDocument(DB_ID, COL_CONTACTS, ID.unique(), {
         name: formData.get('name') as string,
         email: formData.get('email') as string,
-        phone: "255", // Required constraint from Appwrite database
+        phone: "255",
         enquiry_for: formData.get('enquiringFor') as string,
         enquiry_type: formData.get('enquiryType') as string,
         user_message: `Phone: ${userPhone}
 
-${msg}`
+${msg}`,
+        message: finalMessage // Restore the automation message!
       });
 
       alert('Thank you! Your request has been received. We will get back to you shortly.');
