@@ -37,14 +37,17 @@ export default function ContactForm({ verticals }: ContactFormProps) {
       }
 
       const msg = formData.get('message') as string;
+      const userPhone = formData.get('phone') as string;
 
       await databases.createDocument(DB_ID, COL_CONTACTS, ID.unique(), {
         name: formData.get('name') as string,
         email: formData.get('email') as string,
-        phone: formData.get('phone') as string,
+        phone: "255", // Required constraint from Appwrite database
         enquiry_for: formData.get('enquiringFor') as string,
         enquiry_type: formData.get('enquiryType') as string,
-        user_message: msg
+        user_message: `Phone: ${userPhone}
+
+${msg}`
       });
 
       alert('Thank you! Your request has been received. We will get back to you shortly.');
