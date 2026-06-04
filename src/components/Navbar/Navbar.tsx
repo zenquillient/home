@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import styles from './Navbar.module.css';
@@ -34,7 +35,9 @@ export default function Navbar({ verticals, logoUrl }: NavbarProps) {
       <div className={`container ${styles.container}`}>
         <Link href="/" className={styles.logo} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {logoUrl ? (
-             <img src={logoUrl} alt="Logo" style={{ height: '40px', objectFit: 'contain' }} />
+             <div style={{ position: 'relative', height: '40px', width: '160px' }}>
+              <Image src={logoUrl} alt="Logo" fill style={{ objectFit: 'contain', objectPosition: 'left center' }} sizes="160px" priority />
+            </div>
           ) : (
             <div>Zen<span>quillient</span></div>
           )}

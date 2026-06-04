@@ -2,6 +2,7 @@
 
 import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from '../blog.module.css';
 import { ArrowLeft, MessageSquare, Tag, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -49,10 +50,11 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
 
   return (
     <article className={styles.articlePage}>
-      <div 
-        className={styles.articleHero}
-        style={{ background: blog.image ? `url(${blog.image}) center/cover no-repeat` : defaultGradient }}
-      >
+      <div className={styles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient }}>
+        {blog.image && (
+          <Image src={blog.image} alt={blog.title} fill style={{ objectFit: 'cover', zIndex: 0 }} priority sizes="100vw" />
+        )}
+        <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
         <div className="container">
           <Link href="/blog" className={styles.backLink}>
             <ArrowLeft size={16} /> Back to Blog
@@ -62,6 +64,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
             <h1 className={styles.articleTitle}>{blog.title}</h1>
           </div>
         </div>
+      </div>
       </div>
       
       <div className={`container ${styles.articleContainer}`}>

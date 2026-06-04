@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import styles from './ReviewsCarousel.module.css';
 import type { Review } from '@/lib/cms';
+import Image from 'next/image';
 
 interface Props {
   reviews: Review[];
@@ -39,7 +40,9 @@ export default function ReviewsCarousel({ reviews }: Props) {
         <p className={styles.text}>"{review.text}"</p>
         <div className={styles.author} style={{ display: 'flex', alignItems: 'center' }}>
           {review.img && (
-            <img src={review.img} alt={review.author} style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', marginRight: '1rem' }} />
+            <div style={{ position: 'relative', width: '48px', height: '48px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, marginRight: '1rem' }}>
+                  <Image src={review.img} alt={review.author} fill style={{ objectFit: 'cover' }} sizes="48px" />
+                </div>
           )}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <span className={styles.name}>— {review.author}</span>

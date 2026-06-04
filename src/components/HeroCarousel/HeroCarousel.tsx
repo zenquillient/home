@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import styles from './HeroCarousel.module.css';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Slide {
   title: string;
@@ -56,19 +57,25 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
     >
       {slides.map((slide, index) => {
           const isUrl = slide.img.startsWith('http');
-          const slideStyle = {
-            backgroundImage: isUrl ? `url(${slide.img})` : slide.img,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          };
           return (
             <div
               key={index}
               className={`${styles.slide} ${index === activeSlide ? styles.active : ''}`}
-              style={slideStyle}
             >
-              <div className={`container ${styles.heroContent}`}>
+              {isUrl ? (
+                <Image 
+                  src={slide.img} 
+                  alt={slide.title} 
+                  fill 
+                  style={{ objectFit: 'cover', objectPosition: 'center' }} 
+                  priority={index === 0}
+                  sizes="100vw"
+                  quality={75}
+                />
+              ) : (
+                <div style={{ position: 'absolute', inset: 0, background: slide.img }} />
+              )}
+              <div className={`container ${styles.heroContent}`} style={{ position: 'relative', zIndex: 10 }}>
                 <h1 className="title-gradient" style={{ color: "var(--foreground)" }}>{slide.title}</h1>
                 <p style={{ color: "var(--foreground)" }}>{slide.subtitle}</p>
                 {slide.buttonLink ? (

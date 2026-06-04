@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './blog.module.css';
 import { ArrowRight } from 'lucide-react';
 import { databases, DB_ID, COL_BLOGS } from '@/lib/appwrite';
