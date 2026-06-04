@@ -36,17 +36,15 @@ export default function ContactForm({ verticals }: ContactFormProps) {
         finalMessage = `Hey ${formData.get('name')},\n\nThank you for reaching out. A team member will be in touch with you shortly.`;
       }
 
-      // The standard schema only has name, email, phone, and type
-      // We concatenate the non-schema fields into the "type" description
-      // so we don't crash Appwrite if the extra attributes don't exist yet.
       const msg = formData.get('message') as string;
 
       await databases.createDocument(DB_ID, COL_CONTACTS, ID.unique(), {
         name: formData.get('name') as string,
         email: formData.get('email') as string,
-        phone: "255",
-        type: descriptorType,
-        message: finalMessage
+        phone: formData.get('phone') as string,
+        enquiry_for: formData.get('enquiringFor') as string,
+        enquiry_type: formData.get('enquiryType') as string,
+        user_message: msg
       });
 
       alert('Thank you! Your request has been received. We will get back to you shortly.');
