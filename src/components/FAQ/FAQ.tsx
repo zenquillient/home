@@ -32,7 +32,7 @@ export default function FAQ({ faqs }: FAQProps) {
                 </button>
                 <div className={styles.answerWrapper + ' ' + (isOpen ? styles.openWrapper : '')}>
                   <div className={styles.answerContent}>
-                    <p>{faq.answer}</p>
+                    <p style={{ whiteSpace: "pre-wrap" }}>{faq.answer}</p>
                   </div>
                 </div>
               </div>

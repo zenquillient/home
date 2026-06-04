@@ -15,7 +15,7 @@ export default async function GenericPage({ params }) {
     return (
       <div className="section" style={{ paddingTop: '120px', minHeight: 'calc(100vh - 100px)' }}>
         <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <Link href="/" style={{ display: 'inline-block', marginBottom: '2rem', color: 'var(--accent)' }}>&larr; Back to Home</Link>
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem', color: '#FFFFFF', fontWeight: 500 }}>&larr; Back to Home</Link>
           <div className="glass" style={{ padding: '3rem', borderRadius: '16px' }}>
             <h1 className="title-gradient" style={{ marginBottom: '2rem', fontSize: '2.5rem' }}>{dynamicPage.title}</h1>
             <div style={{ whiteSpace: 'pre-wrap', color: 'var(--foreground)', lineHeight: '1.8' }}>

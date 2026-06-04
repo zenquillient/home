@@ -46,16 +46,15 @@
 
 .heroContent h1 {
   margin-bottom: clamp(0.25rem, 1vw, 0.5rem);
-  color: transparent !important;
-  opacity: 1 !important; /* Pure black 100% visibility */
-  -webkit-text-stroke: 1.5px #FFFFFF; /* White border for legibility */
-  text-stroke: 1.5px #FFFFFF;
-  text-shadow: 0 2px 10px rgba(255,255,255,0.5); /* subtle glow */
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  -webkit-text-stroke: 0;
+  text-stroke: 0;
+  text-shadow: none;
   filter: none;
-  /* Prevent huge text from breaking the layout */
   word-break: break-word;
   max-width: 100%;
-  font-size: clamp(2rem, 5vw, 3.5rem); /* slightly smaller than global h1 */
+  font-size: clamp(2rem, 5vw, 3.5rem);
   line-height: 1.1;
 }
 
@@ -146,7 +145,7 @@
     font-size: clamp(1rem, 3.5vw, 1.75rem) !important;
     margin-bottom: 0.25rem !important;
     line-height: 1.1 !important;
-    -webkit-text-stroke: 1px #FFFFFF !important; /* Thinner border for smaller mobile text */
+    -webkit-text-stroke: 0 !important;
   }
 
   .heroContent p {

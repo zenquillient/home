@@ -39,11 +39,7 @@ export default function ContactForm({ verticals }: ContactFormProps) {
       // The standard schema only has name, email, phone, and type
       // We concatenate the non-schema fields into the "type" description
       // so we don't crash Appwrite if the extra attributes don't exist yet.
-      const rawType = formData.get('enquiryType') as string;
-      const rawFor = formData.get('enquiringFor') as string;
       const msg = formData.get('message') as string;
-
-      const descriptorType = `Enquiry: ${rawType} | For: ${rawFor} | Msg: ${msg.substring(0, 100)}`;
 
       await databases.createDocument(DB_ID, COL_CONTACTS, ID.unique(), {
         name: formData.get('name') as string,

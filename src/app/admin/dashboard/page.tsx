@@ -88,6 +88,7 @@ export default function AdminDashboard() {
   // Loaders
   useEffect(() => {
     if (!authChecked) return;
+    fetchBlogs();
     loadAutomationConfigs();
     loadAnnouncementConfig();
       loadMindfulnessConfig();
@@ -224,10 +225,11 @@ export default function AdminDashboard() {
   const fetchBlogs = async () => {
     try {
       const res = await databases.listDocuments(DB_ID, COL_BLOGS);
+
       setBlogs(res.documents.map(d => ({
         $id: d.$id, title: d.title, content: d.content, date: d.date || new Date(d.$createdAt).toLocaleDateString(), image: d.image, tags: d.tags || ''
       })));
-    } catch(err) { }
+    } catch(err) { console.error('Failed to fetch blogs:', err); alert('Failed to fetch blogs: ' + err.message); }
   };
 
   // Handlers
@@ -322,7 +324,7 @@ export default function AdminDashboard() {
 
   const deleteBlog = async (id: string) => {
     if(confirm('Delete blog?')) {
-       try { await databases.deleteDocument(DB_ID, COL_BLOGS, id); await fetchBlogs(); } catch(err) { }
+       try { await databases.deleteDocument(DB_ID, COL_BLOGS, id); await fetchBlogs(); } catch(err) { console.error('Failed to fetch blogs:', err); alert('Failed to fetch blogs: ' + err.message); }
     }
   };
 
