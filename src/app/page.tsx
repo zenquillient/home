@@ -23,7 +23,7 @@ export default async function Home() {
   if (verticals.length >= 4) {
     pageData.images = verticals.map((v, i) => ({
       title: v.name,
-      subtitle: v.subtitle || subtitles[i],
+      subtitle: v.subtitle !== undefined ? v.subtitle : subtitles[i],
       // Use real uploaded image if available, otherwise use gradient
       img: v.img && v.img.startsWith('http') ? v.img : gradients[i],
       href: v.href

@@ -104,7 +104,7 @@ export const getPageData = async (slug: string): Promise<PageContent> => {
         ];
         
         parsed.images.forEach((imgObj: any) => {
-          if (verticalIndex !== -1 && !imgObj.subtitle) {
+          if (verticalIndex !== -1 && imgObj.subtitle === undefined) {
             imgObj.subtitle = fallbackSubtitles[verticalIndex];
           }
           imgObj.buttonText = parsed.buttonText;
