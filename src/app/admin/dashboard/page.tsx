@@ -176,11 +176,11 @@ export default function AdminDashboard() {
       const doc = await databases.getDocument(DB_ID, COL_SETTINGS, "mindfulness");
       if (doc.content) {
         const p = JSON.parse(doc.content);
-        if (p.title) setTestTitle(p.title);
-        if (p.content) setTestContent(p.content);
-        if (p.btnText) setTestBtnText(p.btnText);
-        if (p.link) setTestLink(p.link);
-        if (p.image) setPopupImage(p.image);
+        if (p.title !== undefined) setTestTitle(p.title);
+        if (p.content !== undefined) setTestContent(p.content);
+        if (p.btnText !== undefined) setTestBtnText(p.btnText);
+        if (p.link !== undefined) setTestLink(p.link);
+        if (p.image !== undefined) setPopupImage(p.image);
       }
     } catch(err) {}
   };
@@ -685,7 +685,7 @@ export default function AdminDashboard() {
                 </div>
                 
                 <div className={styles.formGroup}>
-                  <label>Popup Image (Optional)</label>
+                  <label>Popup Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 2:1, e.g. 800x400)</span></label>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     {popupImage && <img src={popupImage} alt="preview" style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover' }} />}
                     <input type="file" accept="image/*" onChange={handlePopupImageUpload} disabled={uploadingPopupImg} />

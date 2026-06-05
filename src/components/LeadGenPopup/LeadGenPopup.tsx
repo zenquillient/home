@@ -24,11 +24,11 @@ export default function LeadGenPopup() {
         const autoDoc = await databases.getDocument(DB_ID, COL_SETTINGS, "mindfulness");
         if (autoDoc.content) {
           const parsed = JSON.parse(autoDoc.content);
-          if (parsed.title) setTestTitle(parsed.title);
-          if (parsed.content) setTestContent(parsed.content);
-          if (parsed.btnText) setTestBtnText(parsed.btnText);
-          if (parsed.link) setTestLink(parsed.link);
-          if (parsed.image) setPopupImage(parsed.image);
+          if (parsed.title !== undefined) setTestTitle(parsed.title);
+          if (parsed.content !== undefined) setTestContent(parsed.content);
+          if (parsed.btnText !== undefined) setTestBtnText(parsed.btnText);
+          if (parsed.link !== undefined) setTestLink(parsed.link);
+          if (parsed.image !== undefined) setPopupImage(parsed.image);
         }
       } catch (err) {
         // silently fail
