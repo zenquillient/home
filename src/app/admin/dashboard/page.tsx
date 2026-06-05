@@ -883,6 +883,14 @@ export default function AdminDashboard() {
                     <input type="text" value={editingPage.slug} onChange={e => setEditingPage({...editingPage, slug: e.target.value})} required placeholder="lowercase, no spaces" pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, and dashes only" />
                   </div>
                   <div className={styles.formGroup}>
+                    <label>Cover Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 16:9, e.g. 1200x675)</span></label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      {editingPage.image && <img src={editingPage.image} alt="preview" style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover' }} />}
+                      <input type="file" accept="image/*" onChange={handlePageImageUpload} disabled={uploadingPageImg} />
+                      {uploadingPageImg && <span style={{ fontSize: '0.8rem', color: 'var(--primary)' }}>Uploading...</span>}
+                    </div>
+                  </div>
+                  <div className={styles.formGroup}>
                     <label>Content</label>
                     <textarea rows={10} value={editingPage.content} onChange={e => setEditingPage({...editingPage, content: e.target.value})} required placeholder="Enter content here..." />
                   </div>
