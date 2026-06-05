@@ -62,7 +62,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
           </div>
           <div className={styles.heroText} style={{ position: 'absolute', bottom: 0, left: 0, margin: 0, padding: 0 }}>
             <span className={styles.date} style={{ display: 'block', marginBottom: '0.25rem' }}>{blog.date}</span>
-            <h1 className={styles.articleTitle} style={{ margin: 0, fontSize: 'clamp(1.25rem, 3.5vw, 2rem)' }}>{blog.title}</h1>
+            <h1 className={styles.articleTitle} style={{ margin: 0, fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>{blog.title}</h1>
           </div>
         </div>
       </div>

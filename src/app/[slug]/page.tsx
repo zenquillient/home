@@ -29,7 +29,7 @@ export default async function GenericPage({ params }) {
               </Link>
             </div>
             <div className={blogStyles.heroText} style={{ position: 'absolute', bottom: 0, left: 0, margin: 0, padding: 0 }}>
-              <h1 className={blogStyles.articleTitle} style={{ margin: 0, fontSize: 'clamp(1.25rem, 3.5vw, 2rem)' }}>{dynamicPage.title}</h1>
+              <h1 className={blogStyles.articleTitle} style={{ margin: 0, fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>{dynamicPage.title}</h1>
             </div>
           </div>
         </div>
