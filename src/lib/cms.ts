@@ -67,6 +67,7 @@ export interface DynamicPage {
   slug: string;
   title: string;
   content: string;
+  image?: string;
 }
 
 export const getDynamicPage = async (slug: string): Promise<DynamicPage | null> => {
@@ -78,7 +79,8 @@ export const getDynamicPage = async (slug: string): Promise<DynamicPage | null> 
       return {
         slug: docs.documents[0].slug,
         title: docs.documents[0].title,
-        content: docs.documents[0].content
+        content: docs.documents[0].content,
+        image: docs.documents[0].image
       };
     }
   } catch (error) {

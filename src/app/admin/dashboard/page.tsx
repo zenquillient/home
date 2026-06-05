@@ -12,7 +12,7 @@ import { ID } from 'appwrite';
 interface Blog { $id?: string; title: string; content: string; date: string; image?: string; tags?: string; }
 interface Review { text: string; author: string; img?: string; }
 interface VerticalForm { name: string; subtitle?: string; heading: string; paragraph: string; covers: string[]; reviews: Review[]; faqs?: {question: string, answer: string}[]; uploadingImg: boolean; videoLink?: string; buttonText?: string; buttonLink?: string; }
-interface DynamicPage { $id?: string; slug: string; title: string; content: string; }
+interface DynamicPage { $id?: string; slug: string; title: string; content: string; image?: string; }
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -74,6 +74,7 @@ export default function AdminDashboard() {
   // Pages Database State
   const [pages, setPages] = useState<DynamicPage[]>([]);
   const [editingPage, setEditingPage] = useState<DynamicPage | null>(null);
+  const [uploadingPageImg, setUploadingPageImg] = useState(false);
 
   const handleLogout = async () => {
     try { await account.deleteSession('current'); } catch (_) {}
@@ -236,6 +237,21 @@ export default function AdminDashboard() {
   };
 
   // Handlers
+  const handlePageImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0 || !editingPage) return;
+    try {
+      setUploadingPageImg(true);
+      const file = e.target.files[0];
+      const res = await storage.createFile(BUCKET_ID, ID.unique(), file);
+      const fileUrl = `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${res.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
+      setEditingPage({...editingPage, image: fileUrl});
+    } catch (err: any) {
+      alert("Failed to upload image: " + err.message);
+    } finally {
+      setUploadingPageImg(false);
+    }
+  };
+
   const handlePopupImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
     try {
@@ -320,7 +336,7 @@ export default function AdminDashboard() {
     e.preventDefault();
     if (!editingPage) return;
     try {
-      const payload = { slug: editingPage.slug, title: editingPage.title, content: editingPage.content };
+      const payload = { slug: editingPage.slug, title: editingPage.title, content: editingPage.content, image: editingPage.image };
       if (editingPage.$id && editingPage.$id !== 'new') {
         await databases.updateDocument(DB_ID, 'pages', editingPage.$id, payload);
       } else {
@@ -886,7 +902,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className={styles.itemActions} style={{display: 'flex', gap: '0.5rem'}}>
                        <button className="btn btn-accent" onClick={() => setEditingPage(p)}><Edit size={16} /></button>
-                       <button className="btn btn-accent" onClick={() => deletePage(p.$id as string)} style={{color: '#ef4444'}}><Trash size={16} /></button>
+                       <button className="btn btn-accent" onClick={() => deletePage(p.$id as string)} style={{color: '#ef4444', opacity: p.slug === 'about-me' ? 0.3 : 1, cursor: p.slug === 'about-me' ? 'not-allowed' : 'pointer' }} disabled={p.slug === 'about-me'}><Trash size={16} /></button>
                     </div>
                   </div>
                 ))}
