@@ -46,10 +46,10 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Blog card image — 16:9 aspect ratio always */
+/* Blog card image — 4:3 aspect ratio always */
 .cardImage {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
 }
 
 .cardContent {

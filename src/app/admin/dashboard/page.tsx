@@ -701,7 +701,7 @@ export default function AdminDashboard() {
                 </div>
                 
                 <div className={styles.formGroup}>
-                  <label>Popup Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 2:1, e.g. 800x400)</span></label>
+                  <label>Popup Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 4:3, e.g. 800x600)</span></label>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     {popupImage && <img src={popupImage} alt="preview" style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover' }} />}
                     <input type="file" accept="image/*" onChange={handlePopupImageUpload} disabled={uploadingPopupImg} />
@@ -883,7 +883,7 @@ export default function AdminDashboard() {
                     <input type="text" value={editingPage.slug} onChange={e => setEditingPage({...editingPage, slug: e.target.value})} required placeholder="lowercase, no spaces" pattern="[a-z0-9\-]+" title="Lowercase letters, numbers, and dashes only" />
                   </div>
                   <div className={styles.formGroup}>
-                    <label>Cover Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 16:9, e.g. 1200x675)</span></label>
+                    <label>Cover Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 4:3, e.g. 800x600, e.g. 1200x675)</span></label>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                       {editingPage.image && editingPage.image !== "null" && <img src={editingPage.image} alt="preview" style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover' }} />}
                       <input type="file" accept="image/*" onChange={handlePageImageUpload} disabled={uploadingPageImg} />
