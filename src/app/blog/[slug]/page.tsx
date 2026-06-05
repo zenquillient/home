@@ -50,21 +50,23 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
 
   return (
     <article className={styles.articlePage}>
-      <div className={styles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/1', display: 'flex', alignItems: 'center' }}>
+      <div className={styles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/1', padding: 0 }}>
         {blog.image && (
           <Image src={blog.image} alt={blog.title} fill style={{ objectFit: 'cover', zIndex: 0 }} priority sizes="100vw" />
         )}
-        <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-        <div className="container">
-          <Link href="/blog" className={styles.backLink}>
-            <ArrowLeft size={16} /> Back to Blog
-          </Link>
-          <div className={styles.heroText}>
-            <span className={styles.date}>{blog.date}</span>
-            <h1 className={styles.articleTitle}>{blog.title}</h1>
+        <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
+          <div className="container" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem 1rem' }}>
+            <div>
+              <Link href="/blog" className={styles.backLink} style={{ margin: 0 }}>
+                <ArrowLeft size={16} /> Back to Blog
+              </Link>
+            </div>
+            <div className={styles.heroText} style={{ marginTop: 0, paddingBottom: '1rem' }}>
+              <span className={styles.date}>{blog.date}</span>
+              <h1 className={styles.articleTitle} style={{ margin: 0 }}>{blog.title}</h1>
+            </div>
           </div>
         </div>
-      </div>
       </div>
       
       <div className={`container ${styles.articleContainer}`}>
