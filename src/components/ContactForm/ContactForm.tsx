@@ -105,8 +105,8 @@ ${msg}`,
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="message">Any additional details?</label>
-        <textarea id="message" name="message" rows={4} required placeholder="Tell us about what you are looking for..." />
+        <label htmlFor="message">Any additional details? (Optional)</label>
+        <textarea id="message" name="message" rows={4} placeholder="Tell us about what you are looking for..." />
       </div>
       <button type="submit" className="btn btn-accent" disabled={loading}>
         {loading ? 'Sending...' : 'Send Request'}
