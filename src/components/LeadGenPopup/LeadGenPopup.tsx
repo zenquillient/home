@@ -21,7 +21,7 @@ export default function LeadGenPopup() {
     const fetchConfig = async () => {
       try {
         const { databases, DB_ID, COL_SETTINGS } = await import("@/lib/appwrite");
-        const autoDoc = await databases.getDocument(DB_ID, COL_SETTINGS, "mindfulness");
+        const autoDoc = await databases.getDocument(DB_ID, COL_SETTINGS, "popup_settings");
         if (autoDoc.content) {
           const parsed = JSON.parse(autoDoc.content);
           if (parsed.title !== undefined) setTestTitle(parsed.title);

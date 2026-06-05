@@ -176,7 +176,7 @@ export default function AdminDashboard() {
 
   const loadMindfulnessConfig = async () => {
     try {
-      const doc = await databases.getDocument(DB_ID, COL_SETTINGS, "mindfulness");
+      const doc = await databases.getDocument(DB_ID, COL_SETTINGS, "popup_settings");
       if (doc.content) {
         const p = JSON.parse(doc.content);
         if (p.title !== undefined) setTestTitle(p.title);
@@ -203,9 +203,9 @@ export default function AdminDashboard() {
     }
     const payload = JSON.stringify(payloadObj);
     try {
-      await databases.updateDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
+      await databases.updateDocument(DB_ID, COL_SETTINGS, "popup_settings", { content: payload });
     } catch(err: any) {
-      if(err.code === 404) await databases.createDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
+      if(err.code === 404) await databases.createDocument(DB_ID, COL_SETTINGS, "popup_settings", { content: payload });
     }
   };
 
@@ -214,9 +214,9 @@ export default function AdminDashboard() {
     try {
       const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage, showCarouselNames, showCarouselButtons });
       try {
-        await databases.updateDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
+        await databases.updateDocument(DB_ID, COL_SETTINGS, "popup_settings", { content: payload });
       } catch(err: any) {
-        if(err.code === 404) await databases.createDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
+        if(err.code === 404) await databases.createDocument(DB_ID, COL_SETTINGS, "popup_settings", { content: payload });
         else throw err;
       }
       alert("Popup Setting configuration saved.");

@@ -23,7 +23,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
 
   useEffect(() => {
     import('@/lib/appwrite').then(({ databases, DB_ID, COL_SETTINGS }) => {
-      databases.getDocument(DB_ID, COL_SETTINGS, 'mindfulness')
+      databases.getDocument(DB_ID, COL_SETTINGS, 'popup_settings')
         .then(doc => {
           if (doc.content) {
             const p = JSON.parse(doc.content);
