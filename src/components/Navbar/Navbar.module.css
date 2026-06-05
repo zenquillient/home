@@ -172,10 +172,6 @@
   box-shadow: 0 4px 20px rgba(47, 105, 67, 0.08);
 }
 
-.scrolled .container {
-  height: 60px; /* Minimized height */
-}
 
-.scrolled .logo {
-  font-size: 1.25rem; /* Minimized logo */
-}
+
+
