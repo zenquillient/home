@@ -20,7 +20,7 @@ export default async function GenericPage({ params }) {
       return (
         <article className={blogStyles.articlePage}>
           <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient }}>
-            {dynamicPage.image && (
+            {dynamicPage.image && dynamicPage.image !== "null" && (
               <Image src={dynamicPage.image} alt={dynamicPage.title} fill style={{ objectFit: 'cover', zIndex: 0 }} priority sizes="100vw" />
             )}
             <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
@@ -37,7 +37,7 @@ export default async function GenericPage({ params }) {
           
           <div className={`container ${blogStyles.articleContainer}`}>
             <div className={blogStyles.contentBody}>
-              <div style={{ whiteSpace: 'pre-wrap', color: 'var(--foreground)', lineHeight: '1.8', fontSize: '1.1rem' }}>
+              <div style={{ whiteSpace: 'pre-wrap', color: '#FFFFFF', lineHeight: '1.8', fontSize: '1.1rem' }}>
                 {dynamicPage.content}
               </div>
             </div>
@@ -53,13 +53,13 @@ export default async function GenericPage({ params }) {
           <div className="glass" style={{ padding: '3rem', borderRadius: '16px' }}>
             <h1 className="title-gradient" style={{ marginBottom: '2rem', fontSize: '2.5rem' }}>{dynamicPage.title}</h1>
             
-            {dynamicPage.image && (
+            {dynamicPage.image && dynamicPage.image !== "null" && (
               <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: '12px', overflow: 'hidden', marginBottom: '2rem' }}>
                 <Image src={dynamicPage.image} alt={dynamicPage.title} fill style={{ objectFit: 'cover' }} sizes="(max-width: 800px) 100vw, 800px" priority />
               </div>
             )}
 
-            <div style={{ whiteSpace: 'pre-wrap', color: 'var(--foreground)', lineHeight: '1.8' }}>
+            <div style={{ whiteSpace: 'pre-wrap', color: '#FFFFFF', lineHeight: '1.8' }}>
               {dynamicPage.content}
             </div>
           </div>

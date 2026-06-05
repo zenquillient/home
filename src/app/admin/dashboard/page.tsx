@@ -885,10 +885,15 @@ export default function AdminDashboard() {
                   <div className={styles.formGroup}>
                     <label>Cover Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 16:9, e.g. 1200x675)</span></label>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      {editingPage.image && <img src={editingPage.image} alt="preview" style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover' }} />}
+                      {editingPage.image && editingPage.image !== "null" && <img src={editingPage.image} alt="preview" style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover' }} />}
                       <input type="file" accept="image/*" onChange={handlePageImageUpload} disabled={uploadingPageImg} />
                       {uploadingPageImg && <span style={{ fontSize: '0.8rem', color: 'var(--primary)' }}>Uploading...</span>}
                     </div>
+                    {editingPage.image && editingPage.image !== "null" && (
+                      <button type="button" onClick={() => setEditingPage({...editingPage, image: ""})} style={{ marginTop: '0.5rem', background: 'transparent', border: 'none', color: '#e74c3c', cursor: 'pointer', fontSize: '0.85rem' }}>
+                        Remove Image
+                      </button>
+                    )}
                   </div>
                   <div className={styles.formGroup}>
                     <label>Content</label>
