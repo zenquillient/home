@@ -53,11 +53,13 @@ export default function AdminDashboard() {
   const [contactAutoMessage, setContactAutoMessage] = useState('Thank you for reaching out. A team member will be in touch with you shortly.');
   const [uploadingPdf, setUploadingPdf] = useState(false);
 
-  // Mindfulness Test State
+  // Popup Setting State
   const [testTitle, setTestTitle] = useState("Discover Your Zenquillient Score");
-  const [testContent, setTestContent] = useState("Take our free comprehensive Mindfulness Test on Google Forms to find the perfect guided path customized for your results.");
+  const [testContent, setTestContent] = useState("Take our free comprehensive Popup Setting on Google Forms to find the perfect guided path customized for your results.");
   const [testBtnText, setTestBtnText] = useState("Take the Test Now");
   const [testLink, setTestLink] = useState("");
+  const [popupImage, setPopupImage] = useState("");
+  const [uploadingPopupImg, setUploadingPopupImg] = useState(false);
 
   // Announcement State
   const [announcementText, setAnnouncementText] = useState('');
@@ -178,6 +180,7 @@ export default function AdminDashboard() {
         if (p.content) setTestContent(p.content);
         if (p.btnText) setTestBtnText(p.btnText);
         if (p.link) setTestLink(p.link);
+        if (p.image) setPopupImage(p.image);
       }
     } catch(err) {}
   };
@@ -185,14 +188,14 @@ export default function AdminDashboard() {
   const saveMindfulnessConfig = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink });
+      const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage });
       try {
         await databases.updateDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
       } catch(err: any) {
         if(err.code === 404) await databases.createDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
         else throw err;
       }
-      alert("Mindfulness Test configuration saved.");
+      alert("Popup Setting configuration saved.");
     } catch(err: any) { alert(err.message); }
   };
 
@@ -233,6 +236,21 @@ export default function AdminDashboard() {
   };
 
   // Handlers
+  const handlePopupImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    try {
+      setUploadingPopupImg(true);
+      const file = e.target.files[0];
+      const res = await storage.createFile(BUCKET_ID, ID.unique(), file);
+      const fileUrl = `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${res.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
+      setPopupImage(fileUrl);
+    } catch (err: any) {
+      alert("Failed to upload image: " + err.message);
+    } finally {
+      setUploadingPopupImg(false);
+    }
+  };
+
   const saveVertical = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -354,7 +372,7 @@ export default function AdminDashboard() {
             <Megaphone size={18} /> Announcements
           </button>
           <button className={`${styles.navItem} ${activeTab === 'mindfulness' ? styles.activeNav : ''}`} onClick={() => setActiveTab('mindfulness')}>
-            <FileText size={18} /> Mindfulness Test
+            <FileText size={18} /> Popup Setting
           </button>
         </nav>
         <button className={styles.logoutBtn} onClick={handleLogout}><LogOut size={18} /> Logout</button>
@@ -651,7 +669,7 @@ export default function AdminDashboard() {
         {activeTab === 'mindfulness' && (
           <div className={styles.tabPane}>
             <div className={styles.header}>
-              <h2>Mindfulness Test Settings</h2>
+              <h2>Popup Setting Settings</h2>
               <p>Configure the Lead Generation Popup that appears on the homepage after 15 seconds.</p>
             </div>
             
