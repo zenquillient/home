@@ -48,7 +48,8 @@ export default function LeadGenPopup() {
     setIsDismissed(true);
   };
 
-  if (!isVisible || !testLink) return null;
+  const hasAnyContent = testTitle || testContent || testBtnText || testLink || popupImage;
+  if (!isVisible || !hasAnyContent) return null;
 
   return (
     <div className={styles.overlay}>
@@ -61,17 +62,22 @@ export default function LeadGenPopup() {
           <X size={20} />
         </button>
 
-        {popupImage && (
-          <div style={{ position: "relative", width: "100%", height: "200px", borderTopLeftRadius: "16px", borderTopRightRadius: "16px", overflow: "hidden" }}>
-            <Image src={popupImage} alt="Popup Image" fill style={{ objectFit: "cover" }} sizes="(max-width: 480px) 100vw, 400px" priority />
-          </div>
-        )}
+
         <div className={styles.content}>
-          <h2 className="title-gradient" style={{ marginTop: popupImage ? 0 : "inherit" }}>{testTitle}</h2>
-          <p>{testContent}</p>
-          <a href={testLink} target="_blank" rel="noopener noreferrer" className="btn btn-accent" style={{ display: "inline-block", width: "100%", marginTop: "1rem", padding: "1rem", boxSizing: "border-box" }} onClick={closePopup}>
-            {testBtnText}
-          </a>
+          {testTitle && <h2 className="title-gradient" style={{ marginTop: 0 }}>{testTitle}</h2>}
+          {testContent && <p>{testContent}</p>}
+          
+          {popupImage && (
+            <div style={{ position: "relative", width: "100%", height: "200px", borderRadius: "12px", overflow: "hidden", marginBottom: "1rem" }}>
+              <Image src={popupImage} alt="Popup Image" fill style={{ objectFit: "cover" }} sizes="(max-width: 480px) 100vw, 400px" priority />
+            </div>
+          )}
+
+          {testBtnText && testLink && (
+            <a href={testLink} target="_blank" rel="noopener noreferrer" className="btn btn-accent" style={{ display: "inline-block", width: "100%", padding: "1rem", boxSizing: "border-box" }} onClick={closePopup}>
+              {testBtnText}
+            </a>
+          )}
         </div>
       </div>
     </div>

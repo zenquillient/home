@@ -677,19 +677,34 @@ export default function AdminDashboard() {
               <form className={styles.form} onSubmit={saveMindfulnessConfig}>
                 <div className={styles.formGroup}>
                   <label>Popup Title</label>
-                  <input type="text" value={testTitle} onChange={e => setTestTitle(e.target.value)} required />
+                  <input type="text" value={testTitle} onChange={e => setTestTitle(e.target.value)} />
                 </div>
                 <div className={styles.formGroup}>
                   <label>Popup Description</label>
-                  <textarea rows={4} value={testContent} onChange={e => setTestContent(e.target.value)} required />
+                  <textarea rows={4} value={testContent} onChange={e => setTestContent(e.target.value)} />
                 </div>
+                
+                <div className={styles.formGroup}>
+                  <label>Popup Image (Optional)</label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    {popupImage && <img src={popupImage} alt="preview" style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover' }} />}
+                    <input type="file" accept="image/*" onChange={handlePopupImageUpload} disabled={uploadingPopupImg} />
+                    {uploadingPopupImg && <span style={{ fontSize: '0.8rem', color: 'var(--primary)' }}>Uploading...</span>}
+                  </div>
+                  {popupImage && (
+                    <button type="button" onClick={() => setPopupImage("")} style={{ marginTop: '0.5rem', background: 'transparent', border: 'none', color: '#e74c3c', cursor: 'pointer', fontSize: '0.85rem' }}>
+                      Remove Image
+                    </button>
+                  )}
+                </div>
+
                 <div className={styles.formGroup}>
                   <label>Button Text</label>
-                  <input type="text" value={testBtnText} onChange={e => setTestBtnText(e.target.value)} required />
+                  <input type="text" value={testBtnText} onChange={e => setTestBtnText(e.target.value)} />
                 </div>
                 <div className={styles.formGroup}>
                   <label>Redirecting Link (Google Form, Typeform, etc.)</label>
-                  <input type="url" value={testLink} onChange={e => setTestLink(e.target.value)} placeholder="https://forms.google.com/..." required />
+                  <input type="url" value={testLink} onChange={e => setTestLink(e.target.value)} placeholder="https://forms.google.com/..." />
                 </div>
                 
                 <button type="submit" className="btn btn-accent" style={{marginTop: '1rem'}}>
