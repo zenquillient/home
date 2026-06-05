@@ -46,11 +46,10 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
     return <div className={`container ${styles.page}`}><h1>{error || 'Article not found'}</h1></div>;
   }
 
-  const defaultGradient = 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(16,185,129,0.2))';
 
   return (
     <article className={styles.articlePage}>
-      <div className={styles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/1', padding: 0 }}>
+      <div className={styles.articleHero} style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4/1', padding: 0 }}>
         {blog.image && (
           <Image src={blog.image} alt={blog.title} fill style={{ objectFit: 'cover', zIndex: 0 }} priority sizes="100vw" />
         )}
@@ -62,7 +61,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
           </div>
           <div className={styles.heroText} style={{ position: 'absolute', bottom: 0, left: 0, margin: 0, padding: 0 }}>
             <span className={styles.date} style={{ display: 'block', marginBottom: '0.25rem' }}>{blog.date}</span>
-            <h1 className={styles.articleTitle} style={{ margin: 0, fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>{blog.title}</h1>
+            <h1 className={styles.articleTitle} style={{ margin: 0 }}>{blog.title}</h1>
           </div>
         </div>
       </div>

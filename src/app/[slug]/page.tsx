@@ -15,10 +15,9 @@ export default async function GenericPage({ params }) {
   const dynamicPage = await getDynamicPage(slug);
   
   if (dynamicPage) {
-    const defaultGradient = 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(16,185,129,0.2))';
-    return (
+      return (
       <article className={blogStyles.articlePage}>
-        <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/1', padding: 0 }}>
+        <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4/1', padding: 0 }}>
           {dynamicPage.image && dynamicPage.image !== "null" && (
             <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
           )}
@@ -29,7 +28,7 @@ export default async function GenericPage({ params }) {
               </Link>
             </div>
             <div className={blogStyles.heroText} style={{ position: 'absolute', bottom: 0, left: 0, margin: 0, padding: 0 }}>
-              <h1 className={blogStyles.articleTitle} style={{ margin: 0, fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>{dynamicPage.title}</h1>
+              <h1 className={blogStyles.articleTitle} style={{ margin: 0 }}>{dynamicPage.title}</h1>
             </div>
           </div>
         </div>
