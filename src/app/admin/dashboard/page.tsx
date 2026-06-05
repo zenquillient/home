@@ -544,7 +544,7 @@ export default function AdminDashboard() {
                   <input type="url" value={verticalData.videoLink || ''} onChange={e => setVerticalData({...verticalData, videoLink: e.target.value})} placeholder="https://youtube.com/watch?v=..." />
                 </div>
                 <div className={styles.formGroup}>
-                  <label>Cover Image <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 4:1, e.g. 1200x300)</span></label>
+                  <label>Cover Image <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 16:9, e.g. 1600x900)</span></label>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     {/* Explicit 3 Slots Grid */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
