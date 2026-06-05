@@ -18,17 +18,19 @@ export default async function GenericPage({ params }) {
     const defaultGradient = 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(16,185,129,0.2))';
     return (
       <article className={blogStyles.articlePage}>
-        <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/1', display: 'flex', alignItems: 'center' }}>
+        <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/1', padding: 0 }}>
           {dynamicPage.image && dynamicPage.image !== "null" && (
             <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
           )}
-          <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-            <div className="container">
-              <Link href="/" className={blogStyles.backLink}>
-                <ArrowLeft size={16} /> Back to Home
-              </Link>
-              <div className={blogStyles.heroText}>
-                <h1 className={blogStyles.articleTitle}>{dynamicPage.title}</h1>
+          <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
+            <div className="container" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem 1rem' }}>
+              <div>
+                <Link href="/" className={blogStyles.backLink} style={{ margin: 0 }}>
+                  <ArrowLeft size={16} /> Back to Home
+                </Link>
+              </div>
+              <div className={blogStyles.heroText} style={{ marginTop: 0, paddingBottom: '1rem' }}>
+                <h1 className={blogStyles.articleTitle} style={{ margin: 0 }}>{dynamicPage.title}</h1>
               </div>
             </div>
           </div>
