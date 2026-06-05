@@ -2,7 +2,7 @@
   position: relative;
   height: auto;
   min-height: unset;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 1;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -132,7 +132,7 @@
   .hero {
     height: auto;
     min-height: unset;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 1;
     padding: 0;
   }
 

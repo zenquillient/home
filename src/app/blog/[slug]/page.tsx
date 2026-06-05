@@ -50,7 +50,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
 
   return (
     <article className={styles.articlePage}>
-      <div className={styles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/3', display: 'flex', alignItems: 'center' }}>
+      <div className={styles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/1', display: 'flex', alignItems: 'center' }}>
         {blog.image && (
           <Image src={blog.image} alt={blog.title} fill style={{ objectFit: 'cover', zIndex: 0 }} priority sizes="100vw" />
         )}

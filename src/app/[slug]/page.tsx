@@ -19,7 +19,7 @@ export default async function GenericPage({ params }) {
       const defaultGradient = 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(16,185,129,0.2))';
       return (
         <article className={blogStyles.articlePage}>
-          <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/3', display: 'flex', alignItems: 'center' }}>
+          <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '4/1', display: 'flex', alignItems: 'center' }}>
             {dynamicPage.image && dynamicPage.image !== "null" && (
               <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
             )}
@@ -54,7 +54,7 @@ export default async function GenericPage({ params }) {
             <h1 className="title-gradient" style={{ marginBottom: '2rem', fontSize: '2.5rem' }}>{dynamicPage.title}</h1>
             
             {dynamicPage.image && dynamicPage.image !== "null" && (
-              <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '12px', overflow: 'hidden', marginBottom: '2rem' }}>
+              <div style={{ position: 'relative', width: '100%', aspectRatio: '4/1', borderRadius: '12px', overflow: 'hidden', marginBottom: '2rem' }}>
                 <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}

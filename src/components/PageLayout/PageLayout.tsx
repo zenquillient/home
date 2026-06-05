@@ -43,7 +43,7 @@ export default function PageLayout({ pageData, allReviews, verticals }: PageLayo
 
 
                 </div>
-                <div style={{ position: 'relative', borderRadius: '1rem', overflow: 'hidden', aspectRatio: '16 / 9', width: '100%', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(42,58,50,0.1)' }}>
+                <div style={{ position: 'relative', borderRadius: '1rem', overflow: 'hidden', aspectRatio: '4 / 1', width: '100%', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(42,58,50,0.1)' }}>
                    {embedUrl ? (
                      <iframe src={embedUrl} title="YouTube video player" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                    ) : (

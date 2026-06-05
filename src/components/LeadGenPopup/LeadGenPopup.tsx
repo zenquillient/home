@@ -68,7 +68,7 @@ export default function LeadGenPopup() {
           {testContent && <p>{testContent}</p>}
           
           {popupImage && (
-            <div style={{ position: "relative", width: "100%", aspectRatio: "4/3", height: "auto", borderRadius: "12px", overflow: "hidden", marginBottom: "1rem" }}>
+            <div style={{ position: "relative", width: "100%", aspectRatio: "4/1", height: "auto", borderRadius: "12px", overflow: "hidden", marginBottom: "1rem" }}>
               <Image src={popupImage} alt="Popup Image" fill style={{ objectFit: "cover" }} sizes="(max-width: 480px) 100vw, 400px" priority />
             </div>
           )}
