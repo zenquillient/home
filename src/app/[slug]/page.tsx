@@ -22,16 +22,14 @@ export default async function GenericPage({ params }) {
           {dynamicPage.image && dynamicPage.image !== "null" && (
             <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
           )}
-          <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
-            <div className="container" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem 1rem' }}>
-              <div>
-                <Link href="/" className={blogStyles.backLink} style={{ margin: 0 }}>
-                  <ArrowLeft size={16} /> Back to Home
-                </Link>
-              </div>
-              <div className={blogStyles.heroText} style={{ marginTop: 0, paddingBottom: '1rem' }}>
-                <h1 className={blogStyles.articleTitle} style={{ margin: 0 }}>{dynamicPage.title}</h1>
-              </div>
+          <div style={{ position: 'absolute', zIndex: 1, top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', pointerEvents: 'none' }}>
+            <div style={{ pointerEvents: 'auto' }}>
+              <Link href="/" className={blogStyles.backLink} style={{ margin: 0 }}>
+                <ArrowLeft size={16} /> Back to Home
+              </Link>
+            </div>
+            <div className={blogStyles.heroText} style={{ position: 'absolute', bottom: 0, left: 0, margin: 0, padding: 0 }}>
+              <h1 className={blogStyles.articleTitle} style={{ margin: 0, fontSize: 'clamp(1.25rem, 3.5vw, 2rem)' }}>{dynamicPage.title}</h1>
             </div>
           </div>
         </div>

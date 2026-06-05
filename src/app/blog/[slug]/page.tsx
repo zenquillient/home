@@ -54,17 +54,15 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         {blog.image && (
           <Image src={blog.image} alt={blog.title} fill style={{ objectFit: 'cover', zIndex: 0 }} priority sizes="100vw" />
         )}
-        <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
-          <div className="container" style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem 1rem' }}>
-            <div>
-              <Link href="/blog" className={styles.backLink} style={{ margin: 0 }}>
-                <ArrowLeft size={16} /> Back to Blog
-              </Link>
-            </div>
-            <div className={styles.heroText} style={{ marginTop: 0, paddingBottom: '1rem' }}>
-              <span className={styles.date}>{blog.date}</span>
-              <h1 className={styles.articleTitle} style={{ margin: 0 }}>{blog.title}</h1>
-            </div>
+        <div style={{ position: 'absolute', zIndex: 1, top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', pointerEvents: 'none' }}>
+          <div style={{ pointerEvents: 'auto' }}>
+            <Link href="/blog" className={styles.backLink} style={{ margin: 0 }}>
+              <ArrowLeft size={16} /> Back to Blog
+            </Link>
+          </div>
+          <div className={styles.heroText} style={{ position: 'absolute', bottom: 0, left: 0, margin: 0, padding: 0 }}>
+            <span className={styles.date} style={{ display: 'block', marginBottom: '0.25rem' }}>{blog.date}</span>
+            <h1 className={styles.articleTitle} style={{ margin: 0, fontSize: 'clamp(1.25rem, 3.5vw, 2rem)' }}>{blog.title}</h1>
           </div>
         </div>
       </div>
