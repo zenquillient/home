@@ -188,6 +188,16 @@ export default function AdminDashboard() {
     } catch(err) {}
   };
 
+    const handleToggleCarouselTitles = async (checked: boolean) => {
+    setShowCarouselTitles(checked);
+    const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage, showCarouselTitles: checked });
+    try {
+      await databases.updateDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
+    } catch(err: any) {
+      if(err.code === 404) await databases.createDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
+    }
+  };
+
   const saveMindfulnessConfig = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -390,7 +400,7 @@ export default function AdminDashboard() {
             <Megaphone size={18} /> Announcements
           </button>
           <button className={`${styles.navItem} ${activeTab === 'mindfulness' ? styles.activeNav : ''}`} onClick={() => setActiveTab('mindfulness')}>
-            <FileText size={18} /> Global Settings
+            <FileText size={18} /> Popup Setting
           </button>
         </nav>
         <button className={styles.logoutBtn} onClick={handleLogout}><LogOut size={18} /> Logout</button>
@@ -407,6 +417,11 @@ export default function AdminDashboard() {
             {/* Homepage Content Editor */}
             <div className={`glass ${styles.formCard}`}>
               <h3 style={{ marginBottom: '1.5rem' }}>Global & Homepage Settings</h3>
+
+              <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', borderBottom: '1px solid var(--card-border)' }}>
+                <input type="checkbox" id="showCarouselTitles" checked={showCarouselTitles} onChange={e => handleToggleCarouselTitles(e.target.checked)} style={{ width: '1.2rem', height: '1.2rem' }} />
+                <label htmlFor="showCarouselTitles" style={{ margin: 0, cursor: 'pointer' }}>Show titles and buttons on Carousels</label>
+              </div>
 
               <div className={styles.formGroup} style={{ marginBottom: '2rem', paddingBottom: '2rem', borderBottom: '1px solid var(--card-border)' }}>
                 <label>Site Logo (Top Left Navbar)</label>
@@ -687,7 +702,7 @@ export default function AdminDashboard() {
         {activeTab === 'mindfulness' && (
           <div className={styles.tabPane}>
             <div className={styles.header}>
-              <h2>Global Settings</h2>
+              <h2>Popup Setting</h2>
               <p>Configure the Lead Generation Popup that appears on the homepage after 15 seconds.</p>
             </div>
             
@@ -695,10 +710,6 @@ export default function AdminDashboard() {
               <form className={styles.form} onSubmit={saveMindfulnessConfig}>
                 <div className={styles.formGroup}>
                   
-                  <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
-                    <input type="checkbox" id="showCarouselTitles" checked={showCarouselTitles} onChange={e => setShowCarouselTitles(e.target.checked)} style={{ width: '1.2rem', height: '1.2rem' }} />
-                    <label htmlFor="showCarouselTitles" style={{ margin: 0, cursor: 'pointer' }}>Show titles and buttons on Carousels</label>
-                  </div>
 
                   <label>Popup Title</label>
                   <input type="text" value={testTitle} onChange={e => setTestTitle(e.target.value)} />
