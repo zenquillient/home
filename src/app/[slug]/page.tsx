@@ -21,7 +21,7 @@ export default async function GenericPage({ params }) {
         <article className={blogStyles.articlePage}>
           <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient }}>
             {dynamicPage.image && dynamicPage.image !== "null" && (
-              <Image src={dynamicPage.image} alt={dynamicPage.title} fill style={{ objectFit: 'cover', zIndex: 0 }} priority sizes="100vw" />
+              <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
             )}
             <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
               <div className="container">
@@ -55,7 +55,7 @@ export default async function GenericPage({ params }) {
             
             {dynamicPage.image && dynamicPage.image !== "null" && (
               <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: '12px', overflow: 'hidden', marginBottom: '2rem' }}>
-                <Image src={dynamicPage.image} alt={dynamicPage.title} fill style={{ objectFit: 'cover' }} sizes="(max-width: 800px) 100vw, 800px" priority />
+                <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
 
