@@ -701,7 +701,7 @@ export default function AdminDashboard() {
                 </div>
                 
                 <div className={styles.formGroup}>
-                  <label>Popup Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 4:5, e.g. 800x1000)</span></label>
+                  <label>Popup Image (Optional) <span style={{ fontSize: '0.8rem', color: 'var(--foreground)', fontWeight: 400 }}>(Recommended ratio 2:1, e.g. 800x400)</span></label>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     {popupImage && <img src={popupImage} alt="preview" style={{ width: '64px', height: '64px', borderRadius: '8px', objectFit: 'cover' }} />}
                     <input type="file" accept="image/*" onChange={handlePopupImageUpload} disabled={uploadingPopupImg} />
