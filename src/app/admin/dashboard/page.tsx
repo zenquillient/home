@@ -59,7 +59,8 @@ export default function AdminDashboard() {
   const [testBtnText, setTestBtnText] = useState("Take the Test Now");
   const [testLink, setTestLink] = useState("");
   const [popupImage, setPopupImage] = useState("");
-  const [showCarouselTitles, setShowCarouselTitles] = useState(true);
+  const [showCarouselNames, setShowCarouselNames] = useState(true);
+  const [showCarouselButtons, setShowCarouselButtons] = useState(true);
   const [uploadingPopupImg, setUploadingPopupImg] = useState(false);
 
   // Announcement State
@@ -181,16 +182,26 @@ export default function AdminDashboard() {
         if (p.title !== undefined) setTestTitle(p.title);
         if (p.content !== undefined) setTestContent(p.content);
         if (p.btnText !== undefined) setTestBtnText(p.btnText);
-        if (p.showCarouselTitles !== undefined) setShowCarouselTitles(p.showCarouselTitles);
+        if (p.showCarouselNames !== undefined) setShowCarouselNames(p.showCarouselNames);
+        else if (p.showCarouselTitles !== undefined) setShowCarouselNames(p.showCarouselTitles);
+        if (p.showCarouselButtons !== undefined) setShowCarouselButtons(p.showCarouselButtons);
+        else if (p.showCarouselTitles !== undefined) setShowCarouselButtons(p.showCarouselTitles);
         if (p.link !== undefined) setTestLink(p.link);
         if (p.image !== undefined) setPopupImage(p.image);
       }
     } catch(err) {}
   };
 
-    const handleToggleCarouselTitles = async (checked: boolean) => {
-    setShowCarouselTitles(checked);
-    const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage, showCarouselTitles: checked });
+    const handleToggleCarouselSettings = async (field: "names" | "buttons", checked: boolean) => {
+    let payloadObj = { title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage, showCarouselNames, showCarouselButtons };
+    if (field === "names") {
+      setShowCarouselNames(checked);
+      payloadObj.showCarouselNames = checked;
+    } else {
+      setShowCarouselButtons(checked);
+      payloadObj.showCarouselButtons = checked;
+    }
+    const payload = JSON.stringify(payloadObj);
     try {
       await databases.updateDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
     } catch(err: any) {
@@ -201,7 +212,7 @@ export default function AdminDashboard() {
   const saveMindfulnessConfig = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage, showCarouselTitles });
+      const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage, showCarouselNames, showCarouselButtons });
       try {
         await databases.updateDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
       } catch(err: any) {
@@ -418,9 +429,15 @@ export default function AdminDashboard() {
             <div className={`glass ${styles.formCard}`}>
               <h3 style={{ marginBottom: '1.5rem' }}>Global & Homepage Settings</h3>
 
-              <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', borderBottom: '1px solid var(--card-border)' }}>
-                <input type="checkbox" id="showCarouselTitles" checked={showCarouselTitles} onChange={e => handleToggleCarouselTitles(e.target.checked)} style={{ width: '1.2rem', height: '1.2rem' }} />
-                <label htmlFor="showCarouselTitles" style={{ margin: 0, cursor: 'pointer' }}>Show titles and buttons on Carousels</label>
+              <div className={styles.formGroup} style={{ flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', borderBottom: '1px solid var(--card-border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input type="checkbox" id="showCarouselNames" checked={showCarouselNames} onChange={e => handleToggleCarouselSettings('names', e.target.checked)} style={{ width: '1.2rem', height: '1.2rem' }} />
+                  <label htmlFor="showCarouselNames" style={{ margin: 0, cursor: 'pointer' }}>Show vertical names & sublines</label>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input type="checkbox" id="showCarouselButtons" checked={showCarouselButtons} onChange={e => handleToggleCarouselSettings('buttons', e.target.checked)} style={{ width: '1.2rem', height: '1.2rem' }} />
+                  <label htmlFor="showCarouselButtons" style={{ margin: 0, cursor: 'pointer' }}>Show "Learn More" buttons</label>
+                </div>
               </div>
 
               <div className={styles.formGroup} style={{ marginBottom: '2rem', paddingBottom: '2rem', borderBottom: '1px solid var(--card-border)' }}>
@@ -502,7 +519,7 @@ export default function AdminDashboard() {
                   <input type="text" value={verticalData.name} onChange={e => setVerticalData({...verticalData, name: e.target.value})} required />
                 </div>
                 <div className={styles.formGroup}>
-                  <label>Homepage Card Subline</label>
+                  <label>Homepage Card Subline (Optional)</label>
                   <input type="text" value={verticalData.subtitle || ''} onChange={e => setVerticalData({...verticalData, subtitle: e.target.value})} placeholder="Guided mindfulness practices tailored for you..." />
                 </div>
                 <div className={styles.formGroup}>

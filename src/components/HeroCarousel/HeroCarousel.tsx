@@ -18,7 +18,8 @@ interface Slide {
 export default function HeroCarousel({ slides }: { slides: Slide[] }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [showTitles, setShowTitles] = useState(true);
+  const [showNames, setShowNames] = useState(true);
+  const [showButtons, setShowButtons] = useState(true);
 
   useEffect(() => {
     import('@/lib/appwrite').then(({ databases, DB_ID, COL_SETTINGS }) => {
@@ -26,7 +27,11 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
         .then(doc => {
           if (doc.content) {
             const p = JSON.parse(doc.content);
-            if (p.showCarouselTitles !== undefined) setShowTitles(p.showCarouselTitles);
+            if (p.showCarouselNames !== undefined) setShowNames(p.showCarouselNames);
+            else if (p.showCarouselTitles !== undefined) setShowNames(p.showCarouselTitles);
+            
+            if (p.showCarouselButtons !== undefined) setShowButtons(p.showCarouselButtons);
+            else if (p.showCarouselTitles !== undefined) setShowButtons(p.showCarouselTitles);
           }
         })
         .catch(() => {});
@@ -89,17 +94,23 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
               ) : (
                 <div style={{ position: 'absolute', inset: 0, background: slide.img }} />
               )}
-              <div className={`container ${styles.heroContent}`} style={{ position: 'relative', zIndex: 10, display: showTitles ? 'block' : 'none' }}>
-                <h1 className="title-gradient" style={{ color: "var(--foreground)" }}>{slide.title}</h1>
-                <p style={{ color: "var(--foreground)" }}>{slide.subtitle}</p>
-                {slide.buttonLink ? (
-                  <Link href={slide.buttonLink} className="btn btn-primary">
-                    {slide.buttonText || "Learn More"} <ChevronRight size={18} />
-                  </Link>
-                ) : (
-                  <Link href={slide.href || "#"} className="btn btn-primary" style={{ display: slide.href ? "inline-flex" : "none" }}>
-                    Learn More <ChevronRight size={18} />
-                  </Link>
+              <div className={`container ${styles.heroContent}`} style={{ position: 'relative', zIndex: 10 }}>
+                {showNames && (
+                  <>
+                    <h1 className="title-gradient" style={{ color: "var(--foreground)" }}>{slide.title}</h1>
+                    <p style={{ color: "var(--foreground)" }}>{slide.subtitle}</p>
+                  </>
+                )}
+                {showButtons && (
+                  slide.buttonLink ? (
+                    <Link href={slide.buttonLink} className="btn btn-primary">
+                      {slide.buttonText || "Learn More"} <ChevronRight size={18} />
+                    </Link>
+                  ) : (
+                    <Link href={slide.href || "#"} className="btn btn-primary" style={{ display: slide.href ? "inline-flex" : "none" }}>
+                      Learn More <ChevronRight size={18} />
+                    </Link>
+                  )
                 )}
               </div>
             </div>
