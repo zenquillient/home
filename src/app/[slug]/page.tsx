@@ -19,11 +19,11 @@ export default async function GenericPage({ params }) {
       const defaultGradient = 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(16,185,129,0.2))';
       return (
         <article className={blogStyles.articlePage}>
-          <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient }}>
+          <div className={blogStyles.articleHero} style={{ position: 'relative', overflow: 'hidden', background: defaultGradient, aspectRatio: '16/9', display: 'flex', alignItems: 'center' }}>
             {dynamicPage.image && dynamicPage.image !== "null" && (
               <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
             )}
-            <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
+            <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
               <div className="container">
                 <Link href="/" className={blogStyles.backLink}>
                   <ArrowLeft size={16} /> Back to Home
