@@ -54,7 +54,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
         {blog.image && (
           <Image src={blog.image} alt={blog.title} fill style={{ objectFit: 'cover', zIndex: 0 }} priority sizes="100vw" />
         )}
-        <div style={{ position: 'absolute', zIndex: 1, top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', zIndex: 2, top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', pointerEvents: 'none' }}>
           <div style={{ pointerEvents: 'auto' }}>
             <Link href="/blog" className={styles.backLink} style={{ margin: 0 }}>
               <ArrowLeft size={16} /> Back to Blog

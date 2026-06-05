@@ -22,7 +22,7 @@ export default async function GenericPage({ params }) {
           {dynamicPage.image && dynamicPage.image !== "null" && (
             <img src={dynamicPage.image} alt={dynamicPage.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
           )}
-          <div style={{ position: 'absolute', zIndex: 1, top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', pointerEvents: 'none' }}>
+          <div style={{ position: 'absolute', zIndex: 2, top: '1rem', left: '1rem', right: '1rem', bottom: '1rem', pointerEvents: 'none' }}>
             <div style={{ pointerEvents: 'auto' }}>
               <Link href="/" className={blogStyles.backLink} style={{ margin: 0 }}>
                 <ArrowLeft size={16} /> Back to Home
