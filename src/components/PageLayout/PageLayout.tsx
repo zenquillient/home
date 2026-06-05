@@ -10,9 +10,10 @@ interface PageLayoutProps {
   pageData: PageContent;
   allReviews?: Review[];
   verticals: NavVertical[];
+  globalSettings?: { showCarouselNames: boolean, showCarouselButtons: boolean };
 }
 
-export default function PageLayout({ pageData, allReviews, verticals }: PageLayoutProps) {
+export default function PageLayout({ pageData, allReviews, verticals, globalSettings }: PageLayoutProps) {
   // On homepage use all-vertical reviews; on vertical pages use that page's reviews
   const reviews = (allReviews && allReviews.length > 0) ? allReviews : pageData.reviews;
 
@@ -29,7 +30,7 @@ export default function PageLayout({ pageData, allReviews, verticals }: PageLayo
 
   return (
     <>
-      <HeroCarousel slides={pageData.images} />
+      <HeroCarousel slides={pageData.images} globalShowNames={globalSettings?.showCarouselNames} globalShowButtons={globalSettings?.showCarouselButtons} />
 
       {/* Summary Section */}
       <section id="about" className={`section ${styles.summarySection}`}>

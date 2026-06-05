@@ -1,4 +1,4 @@
-import { getPageData, getVerticalNames, getAllReviews } from '@/lib/cms';
+import { getPageData, getVerticalNames, getAllReviews, getGlobalSettings } from '@/lib/cms';
 import LeadGenPopup from '@/components/LeadGenPopup/LeadGenPopup';
 import PageLayout from '@/components/PageLayout/PageLayout';
 
@@ -7,10 +7,11 @@ import type { Review } from '@/lib/cms';
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const [pageData, verticals, allReviews] = await Promise.all([
+  const [pageData, verticals, allReviews, globalSettings] = await Promise.all([
     getPageData('home'),
     getVerticalNames(),
-    getAllReviews()
+    getAllReviews(),
+    getGlobalSettings()
   ]);
 
   const gradients = ["transparent", "transparent", "transparent", "transparent"];
@@ -36,7 +37,7 @@ export default async function Home() {
       
       {/* Shared Layout for Content + Reviews + Form */}
       <LeadGenPopup />
-      <PageLayout pageData={pageData} allReviews={allReviews} verticals={verticals} />
+      <PageLayout pageData={pageData} allReviews={allReviews} verticals={verticals} globalSettings={globalSettings} />
     </>
   );
 }

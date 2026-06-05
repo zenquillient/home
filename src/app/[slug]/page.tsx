@@ -1,4 +1,4 @@
-import { getPageData, getDynamicPage, getVerticalNames } from '@/lib/cms';
+import { getPageData, getDynamicPage, getVerticalNames, getGlobalSettings } from '@/lib/cms';
 import PageLayout from '@/components/PageLayout/PageLayout';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -50,8 +50,9 @@ export default async function GenericPage({ params }) {
   // If not a standalone page, treat it as a Vertical and use the Hero+Forms layout
   const pageData = await getPageData(slug);
   const verticals = await getVerticalNames();
+  const globalSettings = await getGlobalSettings();
 
   return (
-    <PageLayout pageData={pageData} verticals={verticals} />
+    <PageLayout pageData={pageData} verticals={verticals} globalSettings={globalSettings} />
   );
 }

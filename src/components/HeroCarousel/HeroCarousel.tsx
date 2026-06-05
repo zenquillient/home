@@ -15,28 +15,10 @@ interface Slide {
   buttonLink?: string;
 }
 
-export default function HeroCarousel({ slides }: { slides: Slide[] }) {
+export default function HeroCarousel({ slides, globalShowNames = true, globalShowButtons = true }: { slides: Slide[], globalShowNames?: boolean, globalShowButtons?: boolean }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [showNames, setShowNames] = useState(true);
-  const [showButtons, setShowButtons] = useState(true);
-
-  useEffect(() => {
-    import('@/lib/appwrite').then(({ databases, DB_ID, COL_SETTINGS }) => {
-      databases.getDocument(DB_ID, COL_SETTINGS, 'popup_settings')
-        .then(doc => {
-          if (doc.content) {
-            const p = JSON.parse(doc.content);
-            if (p.showCarouselNames !== undefined) setShowNames(p.showCarouselNames);
-            else if (p.showCarouselTitles !== undefined) setShowNames(p.showCarouselTitles);
-            
-            if (p.showCarouselButtons !== undefined) setShowButtons(p.showCarouselButtons);
-            else if (p.showCarouselTitles !== undefined) setShowButtons(p.showCarouselTitles);
-          }
-        })
-        .catch(() => {});
-    });
-  }, []);
+  
 
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -95,7 +77,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
                 <div style={{ position: 'absolute', inset: 0, background: slide.img }} />
               )}
               <div className={`container ${styles.heroContent}`} style={{ position: 'relative', zIndex: 10 }}>
-                {showNames && (
+                {globalShowNames && (
                   <>
                     <h1 className="title-gradient" style={{ color: "var(--foreground)" }}>{slide.title}</h1>
                     <p style={{ color: "var(--foreground)" }}>{slide.subtitle}</p>
@@ -106,7 +88,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
                     {slide.buttonText || "Learn More"} <ChevronRight size={18} />
                   </Link>
                 ) : (
-                  showButtons && (
+                  globalShowButtons && (
                     <Link href={slide.href || "#"} className="btn btn-primary" style={{ display: slide.href ? "inline-flex" : "none" }}>
                       Learn More <ChevronRight size={18} />
                     </Link>
