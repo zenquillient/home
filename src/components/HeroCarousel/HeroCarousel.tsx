@@ -18,6 +18,20 @@ interface Slide {
 export default function HeroCarousel({ slides }: { slides: Slide[] }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [showTitles, setShowTitles] = useState(true);
+
+  useEffect(() => {
+    import('@/lib/appwrite').then(({ databases, DB_ID, COL_SETTINGS }) => {
+      databases.getDocument(DB_ID, COL_SETTINGS, 'mindfulness')
+        .then(doc => {
+          if (doc.content) {
+            const p = JSON.parse(doc.content);
+            if (p.showCarouselTitles !== undefined) setShowTitles(p.showCarouselTitles);
+          }
+        })
+        .catch(() => {});
+    });
+  }, []);
 
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -75,7 +89,7 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
               ) : (
                 <div style={{ position: 'absolute', inset: 0, background: slide.img }} />
               )}
-              <div className={`container ${styles.heroContent}`} style={{ position: 'relative', zIndex: 10 }}>
+              <div className={`container ${styles.heroContent}`} style={{ position: 'relative', zIndex: 10, display: showTitles ? 'block' : 'none' }}>
                 <h1 className="title-gradient" style={{ color: "var(--foreground)" }}>{slide.title}</h1>
                 <p style={{ color: "var(--foreground)" }}>{slide.subtitle}</p>
                 {slide.buttonLink ? (

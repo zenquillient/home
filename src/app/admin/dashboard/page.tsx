@@ -59,6 +59,7 @@ export default function AdminDashboard() {
   const [testBtnText, setTestBtnText] = useState("Take the Test Now");
   const [testLink, setTestLink] = useState("");
   const [popupImage, setPopupImage] = useState("");
+  const [showCarouselTitles, setShowCarouselTitles] = useState(true);
   const [uploadingPopupImg, setUploadingPopupImg] = useState(false);
 
   // Announcement State
@@ -180,6 +181,7 @@ export default function AdminDashboard() {
         if (p.title !== undefined) setTestTitle(p.title);
         if (p.content !== undefined) setTestContent(p.content);
         if (p.btnText !== undefined) setTestBtnText(p.btnText);
+        if (p.showCarouselTitles !== undefined) setShowCarouselTitles(p.showCarouselTitles);
         if (p.link !== undefined) setTestLink(p.link);
         if (p.image !== undefined) setPopupImage(p.image);
       }
@@ -189,7 +191,7 @@ export default function AdminDashboard() {
   const saveMindfulnessConfig = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage });
+      const payload = JSON.stringify({ title: testTitle, content: testContent, btnText: testBtnText, link: testLink, image: popupImage, showCarouselTitles });
       try {
         await databases.updateDocument(DB_ID, COL_SETTINGS, "mindfulness", { content: payload });
       } catch(err: any) {
@@ -388,7 +390,7 @@ export default function AdminDashboard() {
             <Megaphone size={18} /> Announcements
           </button>
           <button className={`${styles.navItem} ${activeTab === 'mindfulness' ? styles.activeNav : ''}`} onClick={() => setActiveTab('mindfulness')}>
-            <FileText size={18} /> Popup Setting
+            <FileText size={18} /> Global Settings
           </button>
         </nav>
         <button className={styles.logoutBtn} onClick={handleLogout}><LogOut size={18} /> Logout</button>
@@ -685,13 +687,19 @@ export default function AdminDashboard() {
         {activeTab === 'mindfulness' && (
           <div className={styles.tabPane}>
             <div className={styles.header}>
-              <h2>Popup Setting Settings</h2>
+              <h2>Global Settings</h2>
               <p>Configure the Lead Generation Popup that appears on the homepage after 15 seconds.</p>
             </div>
             
             <div className={`glass ${styles.formCard}`}>
               <form className={styles.form} onSubmit={saveMindfulnessConfig}>
                 <div className={styles.formGroup}>
+                  
+                  <div className={styles.formGroup} style={{ flexDirection: 'row', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
+                    <input type="checkbox" id="showCarouselTitles" checked={showCarouselTitles} onChange={e => setShowCarouselTitles(e.target.checked)} style={{ width: '1.2rem', height: '1.2rem' }} />
+                    <label htmlFor="showCarouselTitles" style={{ margin: 0, cursor: 'pointer' }}>Show titles and buttons on Carousels</label>
+                  </div>
+
                   <label>Popup Title</label>
                   <input type="text" value={testTitle} onChange={e => setTestTitle(e.target.value)} />
                 </div>
