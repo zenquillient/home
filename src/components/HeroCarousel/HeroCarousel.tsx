@@ -101,12 +101,12 @@ export default function HeroCarousel({ slides }: { slides: Slide[] }) {
                     <p style={{ color: "var(--foreground)" }}>{slide.subtitle}</p>
                   </>
                 )}
-                {showButtons && (
-                  slide.buttonLink ? (
-                    <Link href={slide.buttonLink} className="btn btn-primary">
-                      {slide.buttonText || "Learn More"} <ChevronRight size={18} />
-                    </Link>
-                  ) : (
+                {slide.buttonLink ? (
+                  <Link href={slide.buttonLink} className="btn btn-primary">
+                    {slide.buttonText || "Learn More"} <ChevronRight size={18} />
+                  </Link>
+                ) : (
+                  showButtons && (
                     <Link href={slide.href || "#"} className="btn btn-primary" style={{ display: slide.href ? "inline-flex" : "none" }}>
                       Learn More <ChevronRight size={18} />
                     </Link>
