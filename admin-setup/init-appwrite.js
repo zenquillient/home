@@ -77,6 +77,7 @@ async function runSetup() {
           { key: 'content', size: 65535, required: false },
           { key: 'date', size: 100, required: false }
         ]
+      },
       { 
         id: 'contacts', 
         name: 'Customer Submissions',
