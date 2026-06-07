@@ -489,12 +489,12 @@ export default function AdminDashboard() {
                 } catch (err: any) { alert('Error: ' + err.message); }
               }}>
                 <div className={styles.formGroup}>
-                  <label>Section Heading</label>
-                  <input type="text" value={homeHeading} onChange={e => setHomeHeading(e.target.value)} required />
+                  <label>Section Heading (Optional)</label>
+                  <input type="text" value={homeHeading} onChange={e => setHomeHeading(e.target.value)} />
                 </div>
                 <div className={styles.formGroup}>
-                  <label>Body Paragraph</label>
-                  <textarea rows={5} value={homeParagraph} onChange={e => setHomeParagraph(e.target.value)} placeholder="Describe your mission and services..." required />
+                  <label>Body Paragraph (Optional)</label>
+                  <textarea rows={5} value={homeParagraph} onChange={e => setHomeParagraph(e.target.value)} placeholder="Describe your mission and services..." />
                 </div>
                 <div className={styles.formGroup}>
                   <label>YouTube Video Link (Optional)</label>
