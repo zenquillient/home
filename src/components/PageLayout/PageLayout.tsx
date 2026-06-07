@@ -15,7 +15,7 @@ interface PageLayoutProps {
 
 export default function PageLayout({ pageData, allReviews, verticals, globalSettings }: PageLayoutProps) {
   // On homepage use all-vertical reviews; on vertical pages use that page's reviews
-  const reviews = (allReviews && allReviews.length > 0) ? allReviews : pageData.reviews;
+  const reviews = ((allReviews && allReviews.length > 0) ? allReviews : pageData?.reviews) || [];
 
   let embedUrl = '';
   if (pageData.videoLink) {
