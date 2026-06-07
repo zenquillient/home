@@ -23,32 +23,16 @@ export default function ContactForm({ verticals }: ContactFormProps) {
       const { databases, COL_CONTACTS, DB_ID, COL_SETTINGS } = await import('@/lib/appwrite');
       const { ID } = await import('appwrite');
 
-      let finalMessage = '';
-      try {
-        const autoDoc = await databases.getDocument(DB_ID, COL_SETTINGS, 'automations');
-        if (autoDoc.content) {
-          const parsed = JSON.parse(autoDoc.content);
-          const prefix = parsed.greetingPrefix || 'Hey';
-          const body = parsed.contactAutoMessage || 'Thank you for reaching out. A team member will be in touch with you shortly.';
-          finalMessage = `${prefix} ${formData.get('name')},\n\n${body}`;
-        }
-      } catch (err) {
-        finalMessage = `Hey ${formData.get('name')},\n\nThank you for reaching out. A team member will be in touch with you shortly.`;
-      }
-
-      const msg = formData.get('message') as string;
+            const msg = formData.get('message') as string;
       const userPhone = formData.get('phone') as string;
 
       await databases.createDocument(DB_ID, COL_CONTACTS, ID.unique(), {
         name: formData.get('name') as string,
         email: formData.get('email') as string,
-        phone: "255",
+        phone: userPhone,
         enquiry_for: formData.get('enquiringFor') as string,
         enquiry_type: formData.get('enquiryType') as string,
-        user_message: `Phone: ${userPhone}
-
-${msg}`,
-        message: finalMessage // Restore the automation message!
+        user_message: msg
       });
 
       alert('Thank you! Your request has been received. We will get back to you shortly.');
